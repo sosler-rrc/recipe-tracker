@@ -3,7 +3,7 @@ export function Navbar() {
     <header>
       <nav className="flex justify-between">
         <div className="title w-100">
-          <h1 className="text-3xl">Recipe Tracker</h1>
+          <h1 className="text-4xl">Recipe Tracker</h1>
         </div>
         <div className="links flex  w-50 justify-around">
           <span>
