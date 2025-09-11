@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+/* 
+  Pastel Colors 
+  
+  #5D688A - Dark Blue
+  #F7A5A5 - Light Red/Peach
+  #FFDBB6 - Yellow/Goldish
+  #FFF2EF - Redish White
+
+*/
+
+body {
+  margin: 0;
+  padding: 0;
+}
