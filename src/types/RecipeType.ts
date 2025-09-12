@@ -1,4 +1,4 @@
-export const enum RecipeType {
+export enum RecipeType {
   BREAKFAST = "Breakfast",
   LUNCH = "Lunch",
   DINNER = "Dinner",
