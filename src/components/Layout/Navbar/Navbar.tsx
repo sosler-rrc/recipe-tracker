@@ -1,5 +1,6 @@
-import { Button } from "../ui/Button";
-import { Input } from "../ui/Input";
+import { Link } from "react-router";
+import { Button } from "../../ui/Button";
+import { Input } from "../../ui/Input";
 
 interface NavbarProps {
   isLoggedIn: boolean;
@@ -11,10 +12,18 @@ export function Navbar({ onLogin, isLoggedIn }: NavbarProps) {
     <header>
       <nav className="flex justify-between">
         <div className="title m-w-60">
-          <h1 className="text-4xl cursor-pointer">Recipe Tracker</h1>
+          <Link to="/">
+            <h1 className="text-4xl cursor-pointer">Recipe Tracker</h1>
+          </Link>
         </div>
         <div className="links flex flex-row gap-4 justify-around items-center">
-          {isLoggedIn ? <Button>My Recipes</Button> : <></>}
+          {isLoggedIn ? (
+            <Link to="/my-recipes">
+              <Button>My Recipes</Button>
+            </Link>
+          ) : (
+            <></>
+          )}
           <Button onClick={() => onLogin()}>{isLoggedIn ? "Logout" : "Login / Signup"}</Button>
         </div>
       </nav>
