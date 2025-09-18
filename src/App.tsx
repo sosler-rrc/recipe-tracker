@@ -10,12 +10,22 @@ import { MyRecipes } from "./components/Pages/MyRecipes";
 
 function App() {
   const [recipes, setRecipes] = useState<Recipe[]>(mockRecipes);
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+
+  const onLogin = () => {
+    setLoggedIn(!loggedIn);
+  };
 
   return (
     <Routes>
       <Route
         path="/"
-        element={<Layout />}>
+        element={
+          <Layout
+            isLoggedIn={loggedIn}
+            onLogin={onLogin}
+          />
+        }>
         <Route
           index
           element={<Landing />}
