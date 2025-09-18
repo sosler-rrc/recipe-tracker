@@ -1,32 +1,62 @@
-import { createBrowserRouter, RouterProvider } from "react-router";
+import { Route, Routes } from "react-router";
 import { Layout } from "./components/Layout/Layout";
-import { MyRecipes } from "./components/Pages/MyRecipes";
+import { Recipes } from "./components/Pages/Recipes";
 import { Landing } from "./components/Pages/Landing";
 import { NotFound } from "./components/Pages/NotFound";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout />,
-    children: [
-      {
-        index: true,
-        element: <Landing />,
-      },
-      {
-        path: "my-recipes",
-        element: <MyRecipes />,
-      },
-      {
-        path: "*",
-        element: <NotFound />,
-      },
-    ],
-  },
-]);
+import { useState } from "react";
+import type { Recipe } from "./types/Recipe";
+import { mockRecipes } from "./data/mockRecipes";
+import { MyRecipes } from "./components/Pages/MyRecipes";
 
 function App() {
-  return <RouterProvider router={router} />;
+  const [recipes, setRecipes] = useState<Recipe[]>(mockRecipes);
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+
+  const onLogin = () => {
+    setLoggedIn(!loggedIn);
+  };
+
+  return (
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <Layout
+            isLoggedIn={loggedIn}
+            onLogin={onLogin}
+          />
+        }>
+        <Route
+          index
+          element={<Landing />}
+        />
+        <Route path="recipes">
+          <Route
+            index
+            element={
+              <Recipes
+                recipes={recipes}
+                setRecipes={setRecipes}
+              />
+            }
+          />
+          <Route
+            path="my-recipes"
+            element={
+              <MyRecipes
+                recipes={recipes.filter((x) => x.recipeSaved)}
+                setRecipes={setRecipes}
+              />
+            }
+          />
+        </Route>
+        <Route
+          path="*"
+          element={<NotFound />}
+        />
+      </Route>
+    </Routes>
+  );
 }
 
 export default App;

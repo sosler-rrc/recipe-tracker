@@ -32,6 +32,7 @@ export const mockRecipes: Recipe[] = [
     servings: 36,
     prepTime: 15,
     cookTime: 10,
+    recipeSaved: false,
     ovenTemp: 375,
     image: "/placeholder-cookies.jpg",
   },
@@ -65,6 +66,7 @@ export const mockRecipes: Recipe[] = [
     servings: 4,
     prepTime: 10,
     cookTime: 15,
+    recipeSaved: false,
     image: "/placeholder-caesar.jpg",
   },
 
@@ -98,6 +100,7 @@ export const mockRecipes: Recipe[] = [
     servings: 4,
     prepTime: 5,
     cookTime: 15,
+    recipeSaved: false,
     image: "/placeholder-pancakes.jpg",
   },
 
@@ -140,6 +143,7 @@ export const mockRecipes: Recipe[] = [
     servings: 6,
     prepTime: 15,
     cookTime: 45,
+    recipeSaved: false,
     image: "/placeholder-bolognese.jpg",
   },
 
@@ -172,6 +176,7 @@ export const mockRecipes: Recipe[] = [
     servings: 2,
     prepTime: 5,
     cookTime: 0,
+    recipeSaved: false,
     image: "/placeholder-smoothie.jpg",
   },
   {
@@ -212,6 +217,7 @@ export const mockRecipes: Recipe[] = [
     servings: 8,
     prepTime: 20,
     cookTime: 60,
+    recipeSaved: false,
     image: "/placeholder-chili.jpg",
   },
 
@@ -247,6 +253,7 @@ export const mockRecipes: Recipe[] = [
     servings: 10,
     prepTime: 15,
     cookTime: 60,
+    recipeSaved: false,
     ovenTemp: 350,
     image: "/placeholder-banana-bread.jpg",
   },
@@ -284,6 +291,7 @@ export const mockRecipes: Recipe[] = [
     servings: 6,
     prepTime: 15,
     cookTime: 0,
+    recipeSaved: false,
     image: "/placeholder-greek-salad.jpg",
   },
 
@@ -319,6 +327,7 @@ export const mockRecipes: Recipe[] = [
     servings: 4,
     prepTime: 10,
     cookTime: 15,
+    recipeSaved: false,
     image: "/placeholder-french-toast.jpg",
   },
 
@@ -359,6 +368,7 @@ export const mockRecipes: Recipe[] = [
     servings: 4,
     prepTime: 15,
     cookTime: 12,
+    recipeSaved: false,
     image: "/placeholder-stir-fry.jpg",
   },
 
@@ -394,6 +404,7 @@ export const mockRecipes: Recipe[] = [
     servings: 16,
     prepTime: 15,
     cookTime: 30,
+    recipeSaved: false,
     ovenTemp: 350,
     image: "/placeholder-brownies.jpg",
   },
@@ -427,6 +438,7 @@ export const mockRecipes: Recipe[] = [
     servings: 4,
     prepTime: 20,
     cookTime: 0,
+    recipeSaved: false,
     image: "/placeholder-caprese.jpg",
   },
 
@@ -465,6 +477,7 @@ export const mockRecipes: Recipe[] = [
     servings: 8,
     prepTime: 20,
     cookTime: 90,
+    recipeSaved: false,
     image: "/placeholder-chicken-soup.jpg",
   },
 
@@ -498,6 +511,7 @@ export const mockRecipes: Recipe[] = [
     servings: 8,
     prepTime: 10,
     cookTime: 12,
+    recipeSaved: false,
     ovenTemp: 425,
     image: "/placeholder-garlic-bread.jpg",
   },
@@ -539,6 +553,7 @@ export const mockRecipes: Recipe[] = [
     servings: 4,
     prepTime: 15,
     cookTime: 20,
+    recipeSaved: false,
     image: "/placeholder-tacos.jpg",
   },
 
@@ -578,6 +593,7 @@ export const mockRecipes: Recipe[] = [
     servings: 8,
     prepTime: 30,
     cookTime: 55,
+    recipeSaved: false,
     ovenTemp: 425,
     image: "/placeholder-apple-pie.jpg",
   },
@@ -621,6 +637,7 @@ export const mockRecipes: Recipe[] = [
     servings: 6,
     prepTime: 20,
     cookTime: 35,
+    recipeSaved: false,
     image: "/placeholder-vegetable-soup.jpg",
   },
 
@@ -654,6 +671,7 @@ export const mockRecipes: Recipe[] = [
     servings: 6,
     prepTime: 15,
     cookTime: 5,
+    recipeSaved: false,
     image: "/placeholder-lemonade.jpg",
   },
 
@@ -691,6 +709,7 @@ export const mockRecipes: Recipe[] = [
     servings: 8,
     prepTime: 20,
     cookTime: 65,
+    recipeSaved: false,
     ovenTemp: 350,
     image: "/placeholder-meatloaf.jpg",
   },
@@ -724,6 +743,7 @@ export const mockRecipes: Recipe[] = [
     servings: 4,
     prepTime: 5,
     cookTime: 0,
+    recipeSaved: false,
     image: "/placeholder-iced-coffee.jpg",
   },
 ];
