@@ -17,9 +17,12 @@ export function Navbar({ onLogin, isLoggedIn }: NavbarProps) {
           </Link>
         </div>
         <div className="links flex flex-row gap-4 justify-around items-center">
+          <Link to="/recipes">
+            <Button>Recipes</Button>
+          </Link>
           {isLoggedIn ? (
-            <Link to="/my-recipes">
-              <Button>My Recipes</Button>
+            <Link to="/recipes/my-recipes">
+              <Button>Saved Recipes</Button>
             </Link>
           ) : (
             <></>
