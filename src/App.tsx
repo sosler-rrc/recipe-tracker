@@ -6,6 +6,7 @@ import { NotFound } from "./components/Pages/NotFound";
 import { useState } from "react";
 import type { Recipe } from "./types/Recipe";
 import { mockRecipes } from "./data/mockRecipes";
+import { MyRecipes } from "./components/Pages/MyRecipes";
 
 function App() {
   const [recipes, setRecipes] = useState<Recipe[]>(mockRecipes);
@@ -32,7 +33,7 @@ function App() {
           <Route
             path="my-recipes"
             element={
-              <Recipes
+              <MyRecipes
                 recipes={recipes.filter((x) => x.recipeSaved)}
                 setRecipes={setRecipes}
               />
