@@ -12,6 +12,7 @@ export interface Recipe {
   servings: number;
   prepTime: number; // mins
   cookTime: number; // mins
+  recipeSaved: boolean;
   ovenTemp?: number;
 
   image: string;
