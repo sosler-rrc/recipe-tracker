@@ -7,6 +7,7 @@ import { useState } from "react";
 import type { Recipe } from "./types/Recipe";
 import { mockRecipes } from "./data/mockRecipes";
 import { MyRecipes } from "./components/Pages/MyRecipes";
+import { CreateRecipe } from "./components/Pages/CreateRecipe";
 
 function App() {
   const [recipes, setRecipes] = useState<Recipe[]>(mockRecipes);
@@ -14,6 +15,10 @@ function App() {
 
   const onLogin = () => {
     setLoggedIn(!loggedIn);
+  };
+
+  const onCreateRecipe = (recipe: Recipe) => {
+    setRecipes([...recipes, recipe]);
   };
 
   return (
@@ -39,6 +44,10 @@ function App() {
                 setRecipes={setRecipes}
               />
             }
+          />
+          <Route
+            path="create"
+            element={<CreateRecipe onCreateRecipe={onCreateRecipe} />}
           />
           <Route
             path="my-recipes"
