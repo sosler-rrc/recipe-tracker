@@ -1,0 +1,55 @@
+import { useState } from "react";
+import { Button } from "../../../ui/Button";
+import { Input } from "../../../ui/Input";
+import { RemovableFormList } from "../RemovableFormList/RemovableFormList";
+
+interface IngredientsFormProps {
+  ingredients: string[];
+  setIngredients: (val: string[]) => void;
+}
+
+export function IngredientsForm({ ingredients, setIngredients }: IngredientsFormProps) {
+  const [newIngredient, setNewIngredient] = useState<string>("");
+
+  const onAddIngredient = () => {
+    if (newIngredient.trim() != "") {
+      setIngredients([...ingredients, newIngredient]);
+      setNewIngredient("");
+    }
+  };
+
+  const onRemoveIngredient = (index: number) => {
+    const data = [...ingredients];
+    data.splice(index, 1);
+    setIngredients(data);
+  };
+
+  const buttonDisabled = newIngredient.trim() == "";
+
+  return (
+    <section className="flex flex-col">
+      <span>Ingredients</span>
+      <div className="flex flex-col w-75 gap-1 mb-4">
+        <Input
+          type="text"
+          placeholder="Add an ingredient"
+          name="recipeIngredients"
+          value={newIngredient}
+          onChange={(e) => setNewIngredient(e.target.value)}
+        />
+        <Button
+          className="text-stone-100 mt-2"
+          type="button"
+          variant="green"
+          disabled={buttonDisabled}
+          onClick={() => onAddIngredient()}>
+          Add Ingredient
+        </Button>
+      </div>
+      <RemovableFormList
+        data={ingredients}
+        onTrashClick={onRemoveIngredient}
+      />
+    </section>
+  );
+}

@@ -1,10 +1,10 @@
 import type { Recipe } from "../../types/Recipe";
-import { RecipeForm } from "../Recipe/RecipeForm/RecipeForm";
+import { CreateRecipeForm } from "../Recipe/RecipeForm/CreateRecipeForm/CreateRecipeForm";
 
 interface CreateRecipeProps {
   onCreateRecipe: (recipe: Recipe) => void;
 }
 
 export function CreateRecipe({ onCreateRecipe }: CreateRecipeProps) {
-  return <RecipeForm onCreateRecipe={onCreateRecipe} />;
+  return <CreateRecipeForm onCreateRecipe={onCreateRecipe} />;
 }
