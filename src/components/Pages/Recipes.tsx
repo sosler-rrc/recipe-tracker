@@ -11,6 +11,7 @@ interface RecipeProps {
 }
 
 export function Recipes({ recipes, setRecipes }: RecipeProps) {
+  const [data, setData] = useState<Recipe[]>(recipes);
   const [filterOptions, setFilterOptions] = useState<string[]>([]);
 
   const setupFilters = () => {
@@ -23,7 +24,7 @@ export function Recipes({ recipes, setRecipes }: RecipeProps) {
     const data = [...recipes];
     const filteredRecipes = filterValue == "All" ? data : data.filter((x) => x.type.includes(filterValue));
 
-    setRecipes(filteredRecipes);
+    setData(filteredRecipes);
   };
 
   const onSearchUpdate = (searchTerm: string) => {
@@ -31,7 +32,7 @@ export function Recipes({ recipes, setRecipes }: RecipeProps) {
     const st = searchTerm.toLowerCase();
     const filteredRecipes = data.filter((x) => x.name.toLowerCase().includes(st) || x.type.toLowerCase().includes(st));
 
-    setRecipes(filteredRecipes);
+    setData(filteredRecipes);
   };
 
   useEffect(() => {
@@ -54,10 +55,10 @@ export function Recipes({ recipes, setRecipes }: RecipeProps) {
           ))}
         </Select>
       </div>
-      <span>{recipes.length} results</span>
+      <span>{data.length} results</span>
       <RecipeList
-        recipes={recipes}
-        setRecipes={setRecipes}
+        recipes={data}
+        setRecipes={setData}
       />
     </div>
   );
