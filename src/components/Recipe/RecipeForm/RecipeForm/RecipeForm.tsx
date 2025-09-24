@@ -8,11 +8,11 @@ import { Textarea } from "../../../ui/Textarea";
 import { IngredientsForm } from "../IngredientsForm/IngredientsForm";
 import { RecipeStepsForm } from "../StepsForm/StepsForm";
 
-interface CreateRecipeFormProps {
+interface RecipeFormProps {
   onCreateRecipe: (recipe: Recipe) => void;
 }
 
-export function CreateRecipeForm({ onCreateRecipe }: CreateRecipeFormProps) {
+export function RecipeForm({ onCreateRecipe }: RecipeFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [steps, setSteps] = useState<string[]>([]);
   const [ingredients, setIngredients] = useState<string[]>([]);
@@ -23,25 +23,28 @@ export function CreateRecipeForm({ onCreateRecipe }: CreateRecipeFormProps) {
     } else {
       setError(null);
     }
-    console.log(error);
   }, [ingredients, steps]);
 
   const onSubmit = (formData: FormData) => {
-    if (error == null) {
-      const newRecipe = {
-        name: formData.get("recipeName"),
-        description: formData.get("recipeDescription"),
-        type: formData.get("recipeType"),
-        prepTime: formData.get("prepTime") as any,
-        cookTime: formData.get("cookTime") as any,
-        servings: formData.get("servings") as any,
-        ovenTemp: formData.get("ovenTemp") as any,
-        ingredients: ingredients,
-        steps: steps,
-        recipeSaved: true,
-        image: "placeholder.jpg",
-      } as Recipe;
+    const newRecipe = {
+      name: formData.get("recipeName"),
+      description: formData.get("recipeDescription"),
+      type: formData.get("recipeType"),
+      prepTime: formData.get("prepTime") as any,
+      cookTime: formData.get("cookTime") as any,
+      servings: formData.get("servings") as any,
+      ovenTemp: formData.get("ovenTemp") as any,
+      ingredients: ingredients,
+      steps: steps,
+      recipeSaved: true,
+      image: "placeholder.jpg",
+    } as Recipe;
 
+    if (newRecipe.name.trim() == "") {
+      setError;
+    }
+
+    if (error == null) {
       setIngredients([]);
       setSteps([]);
 

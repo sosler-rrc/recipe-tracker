@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "../../../ui/Button";
-import { Input } from "../../../ui/Input";
 import { RemovableFormList } from "../RemovableFormList/RemovableFormList";
+import { Textarea } from "../../../ui/Textarea";
 
 interface RecipeStepsFormProps {
   steps: string[];
@@ -24,17 +24,24 @@ export function RecipeStepsForm({ setSteps, steps }: RecipeStepsFormProps) {
     setSteps(data);
   };
 
+  const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key.toLowerCase() == "enter") {
+      e.preventDefault();
+      onAddStep();
+    }
+  };
+
   const buttonDisabled = newStep.trim() == "";
 
   return (
     <section className="flex flex-col">
       <span>Recipe Steps</span>
       <div className="flex flex-col w-75 gap-1 mb-4">
-        <Input
-          type="text"
+        <Textarea
           placeholder="Add an step"
           name="recipeIngredients"
           value={newStep}
+          onKeyDown={(e) => onKeyDown(e)}
           onChange={(e) => setNewStep(e.target.value)}
         />
         <Button

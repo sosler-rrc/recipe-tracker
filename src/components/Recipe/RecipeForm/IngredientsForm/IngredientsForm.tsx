@@ -24,6 +24,13 @@ export function IngredientsForm({ ingredients, setIngredients }: IngredientsForm
     setIngredients(data);
   };
 
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key.toLowerCase() == "enter") {
+      e.preventDefault();
+      onAddIngredient();
+    }
+  };
+
   const buttonDisabled = newIngredient.trim() == "";
 
   return (
@@ -35,6 +42,7 @@ export function IngredientsForm({ ingredients, setIngredients }: IngredientsForm
           placeholder="Add an ingredient"
           name="recipeIngredients"
           value={newIngredient}
+          onKeyDown={(e) => onKeyDown(e)}
           onChange={(e) => setNewIngredient(e.target.value)}
         />
         <Button
