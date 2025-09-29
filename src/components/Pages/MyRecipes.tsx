@@ -1,13 +1,15 @@
 import { Link } from "react-router";
 import type { Recipe } from "../../types/Recipe";
 import { RecipeList } from "../Recipe/RecipeList/RecipeList";
+import { useRecipes } from "../../hooks/useRecipes";
 
 interface MyRecipesProps {
-  recipes: Recipe[];
-  setRecipes: React.Dispatch<React.SetStateAction<Recipe[]>>;
+  recipeDependencies: any[];
+  recipeFilterFn: ((recipe: Recipe) => boolean) | null;
 }
+export function MyRecipes({ recipeDependencies, recipeFilterFn }: MyRecipesProps) {
+  const { recipes, toggleSavedRecipe } = useRecipes(recipeDependencies, recipeFilterFn);
 
-export function MyRecipes({ recipes, setRecipes }: MyRecipesProps) {
   const NoRecipesFound = () => {
     return (
       <div className="flex flex-col text-xl gap-4">
@@ -29,7 +31,7 @@ export function MyRecipes({ recipes, setRecipes }: MyRecipesProps) {
       <div className="p-16">
         <RecipeList
           recipes={recipes}
-          setRecipes={setRecipes}
+          onRecipeSaved={toggleSavedRecipe}
         />
       </div>
     </div>

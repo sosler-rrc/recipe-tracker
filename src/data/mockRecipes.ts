@@ -1,7 +1,7 @@
 import type { Recipe } from "../types/Recipe";
 import { RecipeType } from "../types/RecipeType";
 
-export const mockRecipes: Recipe[] = [
+export const recipeData: Recipe[] = [
   {
     id: "1",
     name: "Chocolate Chip Cookies",

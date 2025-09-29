@@ -4,21 +4,14 @@ import { Recipes } from "./components/Pages/Recipes";
 import { Landing } from "./components/Pages/Landing";
 import { NotFound } from "./components/Pages/NotFound";
 import { useState } from "react";
-import type { Recipe } from "./types/Recipe";
-import { mockRecipes } from "./data/mockRecipes";
 import { MyRecipes } from "./components/Pages/MyRecipes";
 import { CreateRecipe } from "./components/Pages/CreateRecipe";
 
 function App() {
-  const [recipes, setRecipes] = useState<Recipe[]>(mockRecipes);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
   const onLogin = () => {
     setLoggedIn(!loggedIn);
-  };
-
-  const onCreateRecipe = (recipe: Recipe) => {
-    setRecipes([...recipes, recipe]);
   };
 
   return (
@@ -40,21 +33,21 @@ function App() {
             index
             element={
               <Recipes
-                recipes={recipes}
-                setRecipes={setRecipes}
+                recipeDependencies={[]}
+                recipeFilterFn={null}
               />
             }
           />
-          <Route
+          {/* <Route
             path="create"
             element={<CreateRecipe onCreateRecipe={onCreateRecipe} />}
-          />
+          /> */}
           <Route
             path="my-recipes"
             element={
               <MyRecipes
-                recipes={recipes.filter((x) => x.recipeSaved)}
-                setRecipes={setRecipes}
+                recipeDependencies={[]}
+                recipeFilterFn={(recipe) => recipe.recipeSaved === true}
               />
             }
           />
