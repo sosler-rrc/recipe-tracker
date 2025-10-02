@@ -5,7 +5,6 @@ import { Landing } from "./components/Pages/Landing";
 import { NotFound } from "./components/Pages/NotFound";
 import { useState } from "react";
 import { MyRecipes } from "./components/Pages/MyRecipes";
-import { CreateRecipe } from "./components/Pages/CreateRecipe";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
@@ -38,10 +37,6 @@ function App() {
               />
             }
           />
-          {/* <Route
-            path="create"
-            element={<CreateRecipe onCreateRecipe={onCreateRecipe} />}
-          /> */}
           <Route
             path="my-recipes"
             element={
