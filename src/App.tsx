@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import { Layout } from "./components/Layout/Layout";
-import { Recipes } from "./components/Pages/Recipes";
-import { Landing } from "./components/Pages/Landing";
-import { NotFound } from "./components/Pages/NotFound";
+import { Recipes } from "./pages/Recipe/AllRecipes";
+import { Landing } from "./pages/Landing";
+import { NotFound } from "./pages/NotFound";
 import { useState } from "react";
-import { MyRecipes } from "./components/Pages/MyRecipes";
-import { CreateRecipe } from "./components/Pages/CreateRecipe";
+import { MyRecipes } from "./pages/Recipe/MyRecipes";
+import { CreateRecipe } from "./pages/Recipe/CreateRecipe";
 import { ToastContainer } from "react-toastify";
 
 function App() {
@@ -51,13 +51,7 @@ function App() {
             />
             <Route
               path="create"
-              element={
-                <CreateRecipe
-                  onCreateRecipe={(x) => {
-                    console.log(x);
-                  }}
-                />
-              }
+              element={<CreateRecipe />}
             />
           </Route>
           <Route
