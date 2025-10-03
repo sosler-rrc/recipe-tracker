@@ -6,5 +6,5 @@ interface CreateRecipeProps {
 }
 
 export function CreateRecipe({ onCreateRecipe }: CreateRecipeProps) {
-  return <RecipeForm onCreateRecipe={onCreateRecipe} />;
+  return <RecipeForm formMode="create" />;
 }

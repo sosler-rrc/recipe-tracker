@@ -15,6 +15,11 @@ export function getRecipeById(recipeId: string): Recipe {
   return foundRecipe;
 }
 
+export async function createRecipe(recipe: Recipe) {
+  recipeData.push(recipe);
+  return recipe;
+}
+
 export async function updateRecipe(recipe: Recipe) {
   const foundRecipeIndex = recipeData.findIndex((t) => t.id === recipe.id);
 

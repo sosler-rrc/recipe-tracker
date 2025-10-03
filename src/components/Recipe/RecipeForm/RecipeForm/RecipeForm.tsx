@@ -7,9 +7,11 @@ import { Select } from "../../../ui/Select";
 import { Textarea } from "../../../ui/Textarea";
 import { IngredientsForm } from "../IngredientsForm/IngredientsForm";
 import { RecipeStepsForm } from "../StepsForm/StepsForm";
+import { useRecipes } from "../../../../hooks/useRecipes";
+import { toast } from "react-toastify";
 
 interface RecipeFormProps {
-  onCreateRecipe: (recipe: Recipe) => void;
+  formMode: "edit" | "create";
 }
 
 const DEFAULT_RECIPE = {
@@ -27,7 +29,8 @@ const DEFAULT_RECIPE = {
   steps: [],
 } as Recipe;
 
-export function RecipeForm({ onCreateRecipe }: RecipeFormProps) {
+export function RecipeForm({ formMode }: RecipeFormProps) {
+  const { createRecipe, updateRecipe } = useRecipes([], null);
   const [recipeData, setRecipeData] = useState<Recipe>(DEFAULT_RECIPE);
   const [errors, setErrors] = useState<Map<string, string>>(new Map());
   const [steps, setSteps] = useState<string[]>([]);
@@ -93,7 +96,22 @@ export function RecipeForm({ onCreateRecipe }: RecipeFormProps) {
         ingredients,
         steps,
       };
-      onCreateRecipe(recipe);
+      let toastMessage = `Successfully created new recipe ${recipe.name}!`;
+      if (formMode == "create") {
+        recipe.recipeSaved = true;
+        createRecipe(recipe);
+      } else {
+        toastMessage = "Successfully updated recipe!";
+        updateRecipe(recipe);
+      }
+      toast(toastMessage, {
+        position: "bottom-center",
+        theme: "light",
+        hideProgressBar: true,
+        closeButton: false,
+        autoClose: 2500,
+      });
+      onReset();
     }
   };
 
