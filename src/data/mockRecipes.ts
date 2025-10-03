@@ -1,7 +1,7 @@
 import type { Recipe } from "../types/Recipe";
 import { RecipeType } from "../types/RecipeType";
 
-export const mockRecipes: Recipe[] = [
+export const recipeData: Recipe[] = [
   {
     id: "1",
     name: "Chocolate Chip Cookies",
@@ -143,7 +143,7 @@ export const mockRecipes: Recipe[] = [
     servings: 6,
     prepTime: 15,
     cookTime: 45,
-    recipeSaved: false,
+    recipeSaved: true,
     image: "/placeholder-bolognese.jpg",
   },
 
@@ -553,7 +553,7 @@ export const mockRecipes: Recipe[] = [
     servings: 4,
     prepTime: 15,
     cookTime: 20,
-    recipeSaved: false,
+    recipeSaved: true,
     image: "/placeholder-tacos.jpg",
   },
 

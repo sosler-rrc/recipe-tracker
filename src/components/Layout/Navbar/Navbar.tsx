@@ -27,6 +27,13 @@ export function Navbar({ onLogin, isLoggedIn }: NavbarProps) {
           ) : (
             <></>
           )}
+          {isLoggedIn ? (
+            <Link to="/recipes/create">
+              <Button>Create Recipe</Button>
+            </Link>
+          ) : (
+            <></>
+          )}
           <Button onClick={() => onLogin()}>{isLoggedIn ? "Logout" : "Login / Signup"}</Button>
         </div>
       </nav>
