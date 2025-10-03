@@ -1,5 +1,4 @@
-import type { RecipeType } from "./RecipeType";
-
+import { RecipeType } from "./RecipeType";
 export interface Recipe {
   id: string;
   name: string;
