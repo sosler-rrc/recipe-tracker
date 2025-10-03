@@ -37,7 +37,7 @@ export function RecipeStepsForm({ setSteps, steps, error }: RecipeStepsFormProps
   return (
     <section className="flex flex-col">
       <span>Recipe Steps</span>
-      <div className="flex flex-col w-75 gap-1 mb-4">
+      <div className="flex flex-col w-100 gap-1 mb-4">
         <Textarea
           placeholder="Add an step"
           name="recipeIngredients"

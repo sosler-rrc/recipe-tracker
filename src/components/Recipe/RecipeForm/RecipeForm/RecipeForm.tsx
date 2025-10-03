@@ -116,12 +116,12 @@ export function RecipeForm({ formMode }: RecipeFormProps) {
   };
 
   return (
-    <section className="my-4 py-4 flex flex-col ">
+    <section className="my-4 py-4 flex flex-col">
       <span className="text-2xl">Create Recipe</span>
       <form
         id="form"
         className="flex flex-row py-4 gap-4">
-        <div className="flex flex-col gap-2 max-w-100">
+        <div className="flex flex-col gap-2 flex-grow">
           <div className="flex flex-col">
             <span>Recipe Name</span>
             <Input
@@ -154,7 +154,7 @@ export function RecipeForm({ formMode }: RecipeFormProps) {
             </Select>
           </div>
           <div className="flex gap-4">
-            <div className="flex flex-col ">
+            <div className="flex flex-col flex-grow">
               <span>Total Servings</span>
               <Input
                 name="servings"
@@ -165,7 +165,7 @@ export function RecipeForm({ formMode }: RecipeFormProps) {
               />
               {errors.has("servings") && <span className="text-red-500 font-semibold">{errors.get("servings")}</span>}
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col flex-grow">
               <span>Oven Temp (F)</span>
               <Input
                 name="ovenTemp"
@@ -178,7 +178,7 @@ export function RecipeForm({ formMode }: RecipeFormProps) {
             </div>
           </div>
           <div className="flex gap-4">
-            <div className="flex flex-col">
+            <div className="flex flex-col flex-grow">
               <span>Prep Time (Mins)</span>
               <Input
                 name="prepTime"
@@ -189,7 +189,7 @@ export function RecipeForm({ formMode }: RecipeFormProps) {
               />
               {errors.has("prepTime") && <span className="text-red-500 font-semibold">{errors.get("prepTime")}</span>}
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col flex-grow">
               <span>Cook Time (Mins)</span>
               <Input
                 name="cookTime"
@@ -201,7 +201,7 @@ export function RecipeForm({ formMode }: RecipeFormProps) {
               {errors.has("cookTime") && <span className="text-red-500 font-semibold">{errors.get("cookTime")}</span>}
             </div>
           </div>
-          <div className="flex justify-between gap-4 mt-8">
+          <div className="flex justify-start gap-4 mt-8">
             <Button
               type="button"
               onClick={() => onSubmit()}

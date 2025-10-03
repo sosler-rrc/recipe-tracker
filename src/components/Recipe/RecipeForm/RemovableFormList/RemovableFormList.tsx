@@ -9,7 +9,7 @@ interface RemovableFormListProps {
 
 export function RemovableFormList({ data, onTrashClick, numbered = false }: RemovableFormListProps) {
   return (
-    <div className="flex flex-col gap-2 max-w-[300px] bg-stone-100 h-full rounded p-2">
+    <div className="flex flex-col gap-2 flex-grow bg-stone-100 h-full rounded p-2">
       {data.map((x, i) => (
         <div
           key={i}
