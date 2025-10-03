@@ -9,4 +9,6 @@ export const RecipeType = {
   SALAD: "Salad",
   SOUP: "Soup",
   SIDE_DISH: "Side Dish",
-};
+} as const;
+
+export type RecipeType = (typeof RecipeType)[keyof typeof RecipeType];

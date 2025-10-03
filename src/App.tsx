@@ -5,6 +5,7 @@ import { Landing } from "./components/Pages/Landing";
 import { NotFound } from "./components/Pages/NotFound";
 import { useState } from "react";
 import { MyRecipes } from "./components/Pages/MyRecipes";
+import { CreateRecipe } from "./components/Pages/CreateRecipe";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
@@ -43,6 +44,16 @@ function App() {
               <MyRecipes
                 recipeDependencies={[]}
                 recipeFilterFn={(recipe) => recipe.recipeSaved === true}
+              />
+            }
+          />
+          <Route
+            path="create"
+            element={
+              <CreateRecipe
+                onCreateRecipe={(x) => {
+                  console.log(x);
+                }}
               />
             }
           />

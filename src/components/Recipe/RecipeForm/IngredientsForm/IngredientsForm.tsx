@@ -6,9 +6,10 @@ import { RemovableFormList } from "../RemovableFormList/RemovableFormList";
 interface IngredientsFormProps {
   ingredients: string[];
   setIngredients: (val: string[]) => void;
+  error?: string;
 }
 
-export function IngredientsForm({ ingredients, setIngredients }: IngredientsFormProps) {
+export function IngredientsForm({ ingredients, setIngredients, error }: IngredientsFormProps) {
   const [newIngredient, setNewIngredient] = useState<string>("");
 
   const onAddIngredient = () => {
@@ -36,6 +37,7 @@ export function IngredientsForm({ ingredients, setIngredients }: IngredientsForm
   return (
     <section className="flex flex-col">
       <span>Ingredients</span>
+
       <div className="flex flex-col w-75 gap-1 mb-4">
         <Input
           type="text"
@@ -53,6 +55,7 @@ export function IngredientsForm({ ingredients, setIngredients }: IngredientsForm
           onClick={() => onAddIngredient()}>
           Add Ingredient
         </Button>
+        {error && <span className="text-red-500 font-semibold">{error}</span>}
       </div>
       <RemovableFormList
         data={ingredients}

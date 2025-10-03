@@ -6,9 +6,10 @@ import { Textarea } from "../../../ui/Textarea";
 interface RecipeStepsFormProps {
   steps: string[];
   setSteps: (val: string[]) => void;
+  error?: string;
 }
 
-export function RecipeStepsForm({ setSteps, steps }: RecipeStepsFormProps) {
+export function RecipeStepsForm({ setSteps, steps, error }: RecipeStepsFormProps) {
   const [newStep, setNewStep] = useState<string>("");
 
   const onAddStep = () => {
@@ -52,6 +53,7 @@ export function RecipeStepsForm({ setSteps, steps }: RecipeStepsFormProps) {
           onClick={() => onAddStep()}>
           Add Step
         </Button>
+        {error && <span className="text-red-500 font-semibold">{error}</span>}
       </div>
       <RemovableFormList
         data={steps}
