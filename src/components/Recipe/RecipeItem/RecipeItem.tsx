@@ -28,7 +28,7 @@ export function RecipeItem({ recipe, onRecipeSaved }: RecipeItemProps) {
         <span>Cooktime: {recipe.cookTime} mins</span>
         {recipe.ovenTemp ? <span>Oven Preheat: {recipe.ovenTemp}&deg;F</span> : <></>}
         <span>Servings: {recipe.servings}</span>
-        <div className="flex mb-4">
+        <div className="flex mb-4 justify-between">
           <div className="my-4">{recipe.description}</div>
           <img
             src={image}
@@ -37,7 +37,7 @@ export function RecipeItem({ recipe, onRecipeSaved }: RecipeItemProps) {
           />
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex gap-4 flex-col">
           <RecipeItemCard
             data={recipe.ingredients}
             title="Ingredients"

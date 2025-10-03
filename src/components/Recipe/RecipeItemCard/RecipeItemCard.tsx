@@ -11,10 +11,14 @@ interface RecipeItemCardProps {
 export function RecipeItemCard({ data, title, ordered = false }: RecipeItemCardProps) {
   const [expanded, setExpanded] = useState(false);
   return (
-    <div className="border rounded flex-grow p-4 min-w-60">
+    <div className="border rounded flex-grow p-4 min-w-60 bg-stone-200">
       <div className="flex justify-between item-center">
         <span className="text-lg">{title}</span>
-        <Button onClick={() => setExpanded(!expanded)}>{expanded ? <ChevronUp /> : <ChevronDown />}</Button>
+        <Button
+          variant="stone"
+          onClick={() => setExpanded(!expanded)}>
+          {expanded ? <ChevronUp /> : <ChevronDown />}
+        </Button>
       </div>
       {expanded ? (
         <ul className="text-sm mt-4 flex flex-col gap-2">
