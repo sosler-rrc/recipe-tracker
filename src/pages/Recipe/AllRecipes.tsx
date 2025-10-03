@@ -1,8 +1,8 @@
 import type { Recipe } from "../../types/Recipe";
-import { RecipeList } from "../Recipe/RecipeList/RecipeList";
-import { Input } from "../ui/Input";
-import { Select } from "../ui/Select";
 import { useRecipes } from "../../hooks/useRecipes";
+import { Input } from "../../components/ui/Input";
+import { Select } from "../../components/ui/Select";
+import { RecipeList } from "../../components/Recipe/RecipeList/RecipeList";
 
 interface RecipeProps {
   recipeDependencies: any[];

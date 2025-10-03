@@ -1,6 +1,5 @@
 import { Link } from "react-router";
 import { Button } from "../../ui/Button";
-import { Input } from "../../ui/Input";
 
 interface NavbarProps {
   isLoggedIn: boolean;

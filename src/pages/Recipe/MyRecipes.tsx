@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import type { Recipe } from "../../types/Recipe";
-import { RecipeList } from "../Recipe/RecipeList/RecipeList";
 import { useRecipes } from "../../hooks/useRecipes";
+import { RecipeList } from "../../components/Recipe/RecipeList/RecipeList";
 
 interface MyRecipesProps {
   recipeDependencies: any[];
