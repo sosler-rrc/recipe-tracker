@@ -35,9 +35,9 @@ export function RecipeStepsForm({ setSteps, steps, error }: RecipeStepsFormProps
   const buttonDisabled = newStep.trim() == "";
 
   return (
-    <section className="flex flex-col">
+    <section className="flex flex-col min-w-100">
       <span>Recipe Steps</span>
-      <div className="flex flex-col w-100 gap-1 mb-4">
+      <div className="flex flex-col gap-1 mb-4">
         <Textarea
           placeholder="Add an step"
           name="recipeIngredients"
