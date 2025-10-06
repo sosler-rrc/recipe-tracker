@@ -44,6 +44,7 @@ export function useRecipes(dependencies: unknown[], filterFn?: ((recipe: Recipe)
     try {
       await RecipeService.createNewRecipe(recipeData);
       await fetchRecipes();
+      return recipeData;
     } catch (errorObject) {
       setError(`${errorObject}`);
     }
@@ -53,6 +54,7 @@ export function useRecipes(dependencies: unknown[], filterFn?: ((recipe: Recipe)
     try {
       await RecipeService.updateRecipe(recipeData);
       await fetchRecipes();
+      return recipeData;
     } catch (errorObject) {
       setError(`${errorObject}`);
     }

@@ -8,6 +8,7 @@ import { MyRecipes } from "./pages/Recipe/MyRecipes";
 import { CreateRecipe } from "./pages/Recipe/CreateRecipe";
 import { ToastContainer } from "react-toastify";
 import { UpdateRecipe } from "./pages/Recipe/UpdateRecipe";
+import { ViewRecipe } from "./pages/Recipe/ViewRecipe";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
@@ -49,6 +50,10 @@ function App() {
                   recipeFilterFn={(recipe) => recipe.recipeSaved === true}
                 />
               }
+            />
+            <Route
+              path=":id"
+              element={<ViewRecipe />}
             />
             <Route
               path=":id/edit"

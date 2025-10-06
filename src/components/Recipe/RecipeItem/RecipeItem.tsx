@@ -21,7 +21,7 @@ export function RecipeItem({ recipe, onRecipeSaved }: RecipeItemProps) {
             {recipe.name} - {recipe.type}
           </div>
           <div className="flex gap-2">
-            <Button onClick={() => navigate(`${recipe.id}/edit`)}>
+            <Button onClick={() => navigate(`/recipes/${recipe.id}/edit`)}>
               <Edit />
             </Button>
             <Button onClick={() => onRecipeSaved(recipe.id, !recipe.recipeSaved)}>{recipe.recipeSaved ? <Star fill="orange" /> : <Star />}</Button>

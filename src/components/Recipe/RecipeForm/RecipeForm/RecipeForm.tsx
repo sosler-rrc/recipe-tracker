@@ -101,7 +101,7 @@ export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
     clearAllErrors();
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const recipeErrors = validateRecipe(recipeData, ingredients, steps);
     setErrors(recipeErrors);
     if (recipeErrors.size == 0) {
@@ -111,9 +111,13 @@ export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
         steps,
       };
       let toastMessage = `Successfully created new recipe ${recipe.name}!`;
+      let recipeId = recipe.id;
       if (formMode == "create") {
         recipe.recipeSaved = true;
-        createRecipe(recipe);
+        const newRecipe = await createRecipe(recipe);
+        if (newRecipe) {
+          recipeId = newRecipe.id;
+        }
       } else {
         toastMessage = "Successfully updated recipe!";
         updateRecipe(recipe);
@@ -125,14 +129,14 @@ export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
         closeButton: false,
         autoClose: 2500,
       });
-      navigate("/recipes");
+      navigate(`/recipes/${recipeId}`);
       onReset();
     }
   };
 
   return (
     <section className="my-4 py-4 flex flex-col">
-      <span className="text-2xl">Create Recipe</span>
+      <span className="text-2xl">{formMode == "create" ? "Create" : "Edit"} Recipe</span>
       <form
         id="form"
         className="flex flex-row py-4 gap-4">
