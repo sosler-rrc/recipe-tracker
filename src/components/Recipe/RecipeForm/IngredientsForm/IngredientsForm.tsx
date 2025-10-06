@@ -35,10 +35,10 @@ export function IngredientsForm({ ingredients, setIngredients, error }: Ingredie
   const buttonDisabled = newIngredient.trim() == "";
 
   return (
-    <section className="flex flex-col">
+    <section className="flex flex-col min-w-100">
       <span>Ingredients</span>
 
-      <div className="flex flex-col w-100 gap-1 mb-4">
+      <div className="flex flex-col gap-1 mb-4">
         <Input
           type="text"
           placeholder="Add an ingredient"

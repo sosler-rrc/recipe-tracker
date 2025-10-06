@@ -9,9 +9,11 @@ import { IngredientsForm } from "../IngredientsForm/IngredientsForm";
 import { RecipeStepsForm } from "../StepsForm/StepsForm";
 import { useRecipes } from "../../../../hooks/useRecipes";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 interface RecipeFormProps {
   formMode: "edit" | "create";
+  recipeId?: string; // edited recipes only
 }
 
 const DEFAULT_RECIPE = {
@@ -29,12 +31,13 @@ const DEFAULT_RECIPE = {
   steps: [],
 } as Recipe;
 
-export function RecipeForm({ formMode }: RecipeFormProps) {
-  const { createRecipe, updateRecipe } = useRecipes([], null);
+export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
+  const { createRecipe, updateRecipe, recipes } = useRecipes([], null);
   const [recipeData, setRecipeData] = useState<Recipe>(DEFAULT_RECIPE);
   const [errors, setErrors] = useState<Map<string, string>>(new Map());
   const [steps, setSteps] = useState<string[]>([]);
   const [ingredients, setIngredients] = useState<string[]>([]);
+  let navigate = useNavigate();
 
   useEffect(() => {
     if (steps.length > 0) {
@@ -44,6 +47,17 @@ export function RecipeForm({ formMode }: RecipeFormProps) {
       clearFieldError("ingredients");
     }
   }, [ingredients, steps]);
+
+  useEffect(() => {
+    if (formMode == "edit" && recipeId) {
+      const editedRecipe = recipes.find((x) => x.id == recipeId);
+      if (editedRecipe) {
+        setRecipeData(editedRecipe);
+        setIngredients(editedRecipe.ingredients);
+        setSteps(editedRecipe.steps);
+      }
+    }
+  }, [recipes]);
 
   const clearFieldError = (field: string) => {
     setErrors((prev) => {
@@ -87,7 +101,7 @@ export function RecipeForm({ formMode }: RecipeFormProps) {
     clearAllErrors();
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     const recipeErrors = validateRecipe(recipeData, ingredients, steps);
     setErrors(recipeErrors);
     if (recipeErrors.size == 0) {
@@ -97,9 +111,13 @@ export function RecipeForm({ formMode }: RecipeFormProps) {
         steps,
       };
       let toastMessage = `Successfully created new recipe ${recipe.name}!`;
+      let recipeId = recipe.id;
       if (formMode == "create") {
         recipe.recipeSaved = true;
-        createRecipe(recipe);
+        const newRecipe = await createRecipe(recipe);
+        if (newRecipe) {
+          recipeId = newRecipe.id;
+        }
       } else {
         toastMessage = "Successfully updated recipe!";
         updateRecipe(recipe);
@@ -111,13 +129,14 @@ export function RecipeForm({ formMode }: RecipeFormProps) {
         closeButton: false,
         autoClose: 2500,
       });
+      navigate(`/recipes/${recipeId}`);
       onReset();
     }
   };
 
   return (
     <section className="my-4 py-4 flex flex-col">
-      <span className="text-2xl">Create Recipe</span>
+      <span className="text-2xl">{formMode == "create" ? "Create" : "Edit"} Recipe</span>
       <form
         id="form"
         className="flex flex-row py-4 gap-4">
@@ -208,7 +227,7 @@ export function RecipeForm({ formMode }: RecipeFormProps) {
               disabled={errors.values.length > 0}
               variant="green"
               className="bg-emerald-600 text-stone-100 w-50">
-              Create
+              {formMode == "create" ? "Create" : "Update"}
             </Button>
             <Button
               type="button"
