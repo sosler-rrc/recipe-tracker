@@ -1,8 +1,9 @@
-import { Share, Star } from "lucide-react";
+import { Edit, Share, Star } from "lucide-react";
 import type { Recipe } from "../../../types/Recipe";
 import { RecipeItemCard } from "../RecipeItemCard/RecipeItemCard";
 import { Button } from "../../ui/Button";
 import image from "../../../assets/default-image.jpg";
+import { useNavigate } from "react-router";
 
 interface RecipeItemProps {
   recipe: Recipe;
@@ -10,6 +11,8 @@ interface RecipeItemProps {
 }
 
 export function RecipeItem({ recipe, onRecipeSaved }: RecipeItemProps) {
+  let navigate = useNavigate();
+
   return (
     <section className="recipe-item my-4 border p-4 rounded bg-stone-100">
       <div className="flex flex-col">
@@ -18,6 +21,9 @@ export function RecipeItem({ recipe, onRecipeSaved }: RecipeItemProps) {
             {recipe.name} - {recipe.type}
           </div>
           <div className="flex gap-2">
+            <Button onClick={() => navigate(`${recipe.id}/edit`)}>
+              <Edit />
+            </Button>
             <Button onClick={() => onRecipeSaved(recipe.id, !recipe.recipeSaved)}>{recipe.recipeSaved ? <Star fill="orange" /> : <Star />}</Button>
             <Button>
               <Share />

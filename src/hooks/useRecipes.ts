@@ -91,8 +91,8 @@ export function useRecipes(dependencies: unknown[], filterFn?: ((recipe: Recipe)
   }, [...dependencies]);
 
   return {
-    recipes: filteredRecipes,
-    allRecipes: recipes,
+    filteredRecipes,
+    recipes,
     error,
     toggleSavedRecipe,
     createRecipe,
