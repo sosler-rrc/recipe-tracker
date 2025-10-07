@@ -10,6 +10,7 @@ import { RecipeStepsForm } from "../StepsForm/StepsForm";
 import { useRecipes } from "../../../../hooks/useRecipes";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
+import * as RecipeService from "../../../../services/recipeService";
 
 interface RecipeFormProps {
   formMode: "edit" | "create";
@@ -32,7 +33,7 @@ const DEFAULT_RECIPE = {
 } as Recipe;
 
 export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
-  const { createRecipe, updateRecipe, recipes } = useRecipes([], null);
+  const { recipes } = useRecipes([], null);
   const [recipeData, setRecipeData] = useState<Recipe>(DEFAULT_RECIPE);
   const [errors, setErrors] = useState<Map<string, string>>(new Map());
   const [steps, setSteps] = useState<string[]>([]);
@@ -71,22 +72,6 @@ export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
     setErrors(new Map());
   };
 
-  const validateRecipe = (recipe: Recipe, ingredients: string[], steps: string[]) => {
-    const validationErrors = new Map<string, string>();
-
-    if (!recipe.name?.trim()) validationErrors.set("name", "Name must be defined");
-    if (!recipe.description?.trim()) validationErrors.set("description", "Description must be defined");
-    if (recipe.cookTime <= 0) validationErrors.set("cookTime", "Cooktime must be greater than 0");
-    if (recipe.prepTime <= 0) validationErrors.set("prepTime", "Preptime must be greater than 0");
-    if (recipe.servings <= 0) validationErrors.set("servings", "Servings must be greater than 0");
-    if (recipe.ovenTemp != undefined && recipe.ovenTemp <= 0) validationErrors.set("ovenTemp", "Oven Temp must be greater than 0");
-
-    if (steps.length <= 0) validationErrors.set("steps", "You must define 1 recipe step");
-    if (ingredients.length <= 0) validationErrors.set("ingredients", "You must define 1 recipe ingredient");
-
-    return validationErrors;
-  };
-
   const handleFormChange = (field: string, value: any) => {
     clearFieldError(field);
     setRecipeData({
@@ -102,7 +87,7 @@ export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
   };
 
   const onSubmit = async () => {
-    const recipeErrors = validateRecipe(recipeData, ingredients, steps);
+    const recipeErrors = await RecipeService.validateRecipe(recipeData, ingredients, steps);
     setErrors(recipeErrors);
     if (recipeErrors.size == 0) {
       const recipe = {
@@ -114,13 +99,13 @@ export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
       let recipeId = recipe.id;
       if (formMode == "create") {
         recipe.recipeSaved = true;
-        const newRecipe = await createRecipe(recipe);
+        const newRecipe = await RecipeService.createNewRecipe(recipe);
         if (newRecipe) {
           recipeId = newRecipe.id;
         }
       } else {
         toastMessage = "Successfully updated recipe!";
-        updateRecipe(recipe);
+        await RecipeService.updateRecipe(recipe);
       }
       toast(toastMessage, {
         position: "bottom-center",
