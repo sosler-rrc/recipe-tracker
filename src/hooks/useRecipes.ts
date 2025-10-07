@@ -61,7 +61,7 @@ export function useRecipes(dependencies: unknown[], filterFn?: ((recipe: Recipe)
   };
 
   const filterOptions = useMemo(() => {
-    const recipeTypes = [...Object.values(typeof RecipeType)].filter((filter) => recipes.findIndex((x) => x.type === filter) !== -1) as string[];
+    const recipeTypes = [...Object.values(RecipeType)].filter((filter) => recipes.findIndex((x) => x.type === filter) !== -1) as string[];
     return ["All", ...recipeTypes];
   }, [recipes]);
 
