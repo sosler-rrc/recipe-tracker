@@ -139,7 +139,7 @@ export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
       <span className="text-2xl">{formMode == "create" ? "Create" : "Edit"} Recipe</span>
       <form
         id="form"
-        className="flex flex-row py-4 gap-4">
+        className="flex flex-col py-4 gap-4 xl:flex-row">
         <div className="flex flex-col gap-2 flex-grow">
           <div className="flex flex-col">
             <span>Recipe Name</span>
