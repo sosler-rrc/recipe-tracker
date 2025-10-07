@@ -10,7 +10,7 @@ interface RecipeProps {
 }
 
 export function Recipes({ recipeDependencies, recipeFilterFn }: RecipeProps) {
-  const { recipes, filterOptions, setSearchTerm, setRecipeType, toggleSavedRecipe } = useRecipes(recipeDependencies, recipeFilterFn);
+  const { filteredRecipes, filterOptions, setSearchTerm, setRecipeType, toggleSavedRecipe } = useRecipes(recipeDependencies, recipeFilterFn);
 
   return (
     <div className="p-16">
@@ -28,9 +28,9 @@ export function Recipes({ recipeDependencies, recipeFilterFn }: RecipeProps) {
           ))}
         </Select>
       </div>
-      <span>{recipes.length} results</span>
+      <span>{filteredRecipes.length} results</span>
       <RecipeList
-        recipes={recipes}
+        recipes={filteredRecipes}
         onRecipeSaved={toggleSavedRecipe}
       />
     </div>
