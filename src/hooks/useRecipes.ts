@@ -40,26 +40,6 @@ export function useRecipes(dependencies: unknown[], filterFn?: ((recipe: Recipe)
     }
   };
 
-  const createRecipe = async (recipeData: Recipe) => {
-    try {
-      await RecipeService.createNewRecipe(recipeData);
-      await fetchRecipes();
-      return recipeData;
-    } catch (errorObject) {
-      setError(`${errorObject}`);
-    }
-  };
-
-  const updateRecipe = async (recipeData: Recipe) => {
-    try {
-      await RecipeService.updateRecipe(recipeData);
-      await fetchRecipes();
-      return recipeData;
-    } catch (errorObject) {
-      setError(`${errorObject}`);
-    }
-  };
-
   const filterOptions = useMemo(() => {
     const recipeTypes = [...Object.values(RecipeType)].filter((filter) => recipes.findIndex((x) => x.type === filter) !== -1) as string[];
     return ["All", ...recipeTypes];
@@ -97,8 +77,6 @@ export function useRecipes(dependencies: unknown[], filterFn?: ((recipe: Recipe)
     recipes,
     error,
     toggleSavedRecipe,
-    createRecipe,
-    updateRecipe,
     filterOptions,
     setSearchTerm,
     setRecipeType,
