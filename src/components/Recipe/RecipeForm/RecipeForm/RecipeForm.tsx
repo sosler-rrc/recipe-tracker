@@ -8,46 +8,19 @@ import { Textarea } from "../../../ui/Textarea";
 import { IngredientsForm } from "../IngredientsForm/IngredientsForm";
 import { RecipeStepsForm } from "../StepsForm/StepsForm";
 import { useRecipes } from "../../../../hooks/useRecipes";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
-import * as RecipeService from "../../../../services/recipeService";
+import { useRecipeForm } from "../../../../hooks/useRecipeForm";
 
 interface RecipeFormProps {
   formMode: "edit" | "create";
   recipeId?: string; // edited recipes only
 }
 
-const DEFAULT_RECIPE = {
-  id: "0",
-  name: "",
-  description: "",
-  recipeSaved: false,
-  type: RecipeType.DINNER,
-  cookTime: 0,
-  prepTime: 0,
-  servings: 0,
-  ovenTemp: undefined,
-  image: "",
-  ingredients: [],
-  steps: [],
-} as Recipe;
-
 export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
   const { recipes } = useRecipes([], null);
-  const [recipeData, setRecipeData] = useState<Recipe>(DEFAULT_RECIPE);
-  const [errors, setErrors] = useState<Map<string, string>>(new Map());
-  const [steps, setSteps] = useState<string[]>([]);
-  const [ingredients, setIngredients] = useState<string[]>([]);
-  let navigate = useNavigate();
+  const { ingredients, recipeData, steps, errors, onReset, handleFormChange, setIngredients, setSteps, setRecipeData, onSubmitForm } = useRecipeForm();
 
-  useEffect(() => {
-    if (steps.length > 0) {
-      clearFieldError("steps");
-    }
-    if (ingredients.length > 0) {
-      clearFieldError("ingredients");
-    }
-  }, [ingredients, steps]);
+  let navigate = useNavigate();
 
   useEffect(() => {
     if (formMode == "edit" && recipeId) {
@@ -60,62 +33,10 @@ export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
     }
   }, [recipes]);
 
-  const clearFieldError = (field: string) => {
-    setErrors((prev) => {
-      const newErrors = new Map(prev);
-      newErrors.delete(field);
-      return newErrors;
-    });
-  };
-
-  const clearAllErrors = () => {
-    setErrors(new Map());
-  };
-
-  const handleFormChange = (field: string, value: any) => {
-    clearFieldError(field);
-    setRecipeData({
-      ...recipeData,
-      [field]: value,
-    });
-  };
-  const onReset = () => {
-    setRecipeData(DEFAULT_RECIPE);
-    setIngredients([]);
-    setSteps([]);
-    clearAllErrors();
-  };
-
   const onSubmit = async () => {
-    const recipeErrors = await RecipeService.validateRecipe(recipeData, ingredients, steps);
-    setErrors(recipeErrors);
-    if (recipeErrors.size == 0) {
-      const recipe = {
-        ...recipeData,
-        ingredients,
-        steps,
-      };
-      let toastMessage = `Successfully created new recipe ${recipe.name}!`;
-      let recipeId = recipe.id;
-      if (formMode == "create") {
-        recipe.recipeSaved = true;
-        const newRecipe = await RecipeService.createNewRecipe(recipe);
-        if (newRecipe) {
-          recipeId = newRecipe.id;
-        }
-      } else {
-        toastMessage = "Successfully updated recipe!";
-        await RecipeService.updateRecipe(recipe);
-      }
-      toast(toastMessage, {
-        position: "bottom-center",
-        theme: "light",
-        hideProgressBar: true,
-        closeButton: false,
-        autoClose: 2500,
-      });
-      navigate(`/recipes/${recipeId}`);
-      onReset();
+    const recipe = await onSubmitForm(formMode);
+    if (recipe) {
+      navigate(`/recipes/${recipe.id}`);
     }
   };
 
