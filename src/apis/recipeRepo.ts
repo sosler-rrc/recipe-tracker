@@ -16,6 +16,8 @@ export function getRecipeById(recipeId: string): Recipe {
 }
 
 export async function createRecipe(recipe: Recipe) {
+  const lastItemId = recipeData[recipeData.length - 1].id;
+  recipe.id = `${Number.parseInt(lastItemId) + 1}`;
   recipeData.push(recipe);
   return recipe;
 }
