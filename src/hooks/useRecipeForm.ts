@@ -1,23 +1,20 @@
 import { useEffect, useState } from "react";
 import * as RecipeService from "../services/recipeService";
 import type { Recipe } from "../types/Recipe";
-import { RecipeType } from "../types/RecipeType";
 import { toast } from "react-toastify";
 
 const DEFAULT_RECIPE = {
-  id: "0",
   name: "",
   description: "",
-  recipeSaved: false,
-  type: RecipeType.DINNER,
+  saved: false,
+  recipeTypeId: "",
   cookTime: 0,
   prepTime: 0,
   servings: 0,
   ovenTemp: undefined,
-  image: "",
   ingredients: [],
   steps: [],
-} as Recipe;
+} as any;
 
 export function useRecipeForm() {
   const [recipeData, setRecipeData] = useState<Recipe>(DEFAULT_RECIPE);
@@ -46,7 +43,7 @@ export function useRecipeForm() {
     setErrors(new Map());
   };
 
-  const handleFormChange = (field: string, value: any) => {
+  const handleFormChange = (field: string, value: unknown) => {
     clearFieldError(field);
     setRecipeData({
       ...recipeData,
@@ -70,13 +67,11 @@ export function useRecipeForm() {
         steps,
       };
       let toastMessage = `Successfully created new recipe ${recipe.name}!`;
-      let recipeId = recipe.id;
+
       if (formMode == "create") {
-        recipe.recipeSaved = true;
+        recipe.saved = true;
         const newRecipe = await RecipeService.createNewRecipe(recipe);
-        if (newRecipe) {
-          recipeId = newRecipe.id;
-        }
+        recipe.id = newRecipe.id;
       } else {
         toastMessage = "Successfully updated recipe!";
         await RecipeService.updateRecipe(recipe);

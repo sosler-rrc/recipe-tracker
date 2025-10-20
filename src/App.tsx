@@ -47,7 +47,7 @@ function App() {
               element={
                 <MyRecipes
                   recipeDependencies={[]}
-                  recipeFilterFn={(recipe) => recipe.recipeSaved === true}
+                  recipeFilterFn={(recipe) => recipe.saved}
                 />
               }
             />

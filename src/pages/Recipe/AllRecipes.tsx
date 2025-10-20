@@ -3,6 +3,7 @@ import { useRecipes } from "../../hooks/useRecipes";
 import { Input } from "../../components/ui/Input";
 import { Select } from "../../components/ui/Select";
 import { RecipeList } from "../../components/Recipe/RecipeList/RecipeList";
+import { useRecipeTypes } from "../../hooks/useRecipeTypes";
 
 interface RecipeProps {
   recipeDependencies: any[];
@@ -10,7 +11,8 @@ interface RecipeProps {
 }
 
 export function Recipes({ recipeDependencies, recipeFilterFn }: RecipeProps) {
-  const { filteredRecipes, filterOptions, setSearchTerm, setRecipeType, toggleSavedRecipe } = useRecipes(recipeDependencies, recipeFilterFn);
+  const { filteredRecipes, setSearchTerm, setRecipeType, toggleSavedRecipe } = useRecipes(recipeDependencies, recipeFilterFn);
+  const { recipeTypes } = useRecipeTypes([]);
 
   return (
     <div className="p-16">
@@ -23,8 +25,12 @@ export function Recipes({ recipeDependencies, recipeFilterFn }: RecipeProps) {
         <Select
           className="w-40"
           onChange={(e) => setRecipeType(e.target.value)}>
-          {filterOptions.map((x) => (
-            <option key={x}>{x}</option>
+          {recipeTypes.map((x) => (
+            <option
+              key={x.id}
+              value={x.id}>
+              {x.name}
+            </option>
           ))}
         </Select>
       </div>

@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import * as RecipeService from "../services/recipeService";
 import type { Recipe } from "../types/Recipe";
-import { RecipeType } from "../types/RecipeType";
 
 interface FilterOptions {
   searchTerm: string;
-  recipeType: string;
+  recipeTypeId: string;
 }
 
 export function useRecipes(dependencies: unknown[], filterFn?: ((recipe: Recipe) => boolean) | null) {
@@ -13,7 +12,7 @@ export function useRecipes(dependencies: unknown[], filterFn?: ((recipe: Recipe)
   const [error, setError] = useState<string | null>();
   const [filters, setFilters] = useState<FilterOptions>({
     searchTerm: "",
-    recipeType: "All",
+    recipeTypeId: "",
   });
 
   const fetchRecipes = async () => {
@@ -30,9 +29,9 @@ export function useRecipes(dependencies: unknown[], filterFn?: ((recipe: Recipe)
     }
   };
 
-  const toggleSavedRecipe = async (recipeId: string) => {
+  const toggleSavedRecipe = async (recipe: Recipe) => {
     try {
-      await RecipeService.toggleSavedRecipe(recipeId);
+      await RecipeService.toggleSavedRecipe(recipe);
 
       await fetchRecipes();
     } catch (errorObject) {
@@ -40,21 +39,16 @@ export function useRecipes(dependencies: unknown[], filterFn?: ((recipe: Recipe)
     }
   };
 
-  const filterOptions = useMemo(() => {
-    const recipeTypes = [...Object.values(RecipeType)].filter((filter) => recipes.findIndex((x) => x.type === filter) !== -1) as string[];
-    return ["All", ...recipeTypes];
-  }, [recipes]);
-
   const filteredRecipes = useMemo(() => {
     let result = [...recipes];
 
-    if (filters.recipeType !== "All") {
-      result = result.filter((recipe) => recipe.type === filters.recipeType);
+    if (filters.recipeTypeId !== "") {
+      result = result.filter((recipe) => recipe.recipeTypeId === filters.recipeTypeId);
     }
 
     if (filters.searchTerm) {
       const st = filters.searchTerm.toLowerCase();
-      result = result.filter((recipe) => recipe.name.toLowerCase().includes(st) || recipe.type.toLowerCase().includes(st));
+      result = result.filter((recipe) => recipe.name.toLowerCase().includes(st) || recipe.recipeTypeId.toLowerCase().includes(st));
     }
 
     return result;
@@ -64,8 +58,9 @@ export function useRecipes(dependencies: unknown[], filterFn?: ((recipe: Recipe)
     setFilters((prev) => ({ ...prev, searchTerm }));
   };
 
-  const setRecipeType = (recipeType: string) => {
-    setFilters((prev) => ({ ...prev, recipeType }));
+  const setRecipeType = (recipeTypeId: string) => {
+    console.log(recipeTypeId);
+    setFilters((prev) => ({ ...prev, recipeTypeId }));
   };
 
   useEffect(() => {
@@ -77,7 +72,6 @@ export function useRecipes(dependencies: unknown[], filterFn?: ((recipe: Recipe)
     recipes,
     error,
     toggleSavedRecipe,
-    filterOptions,
     setSearchTerm,
     setRecipeType,
   };

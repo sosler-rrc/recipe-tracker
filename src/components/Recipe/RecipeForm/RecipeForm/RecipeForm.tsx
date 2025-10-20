@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-import type { Recipe } from "../../../../types/Recipe";
-import { RecipeType } from "../../../../types/RecipeType";
+import { useEffect } from "react";
 import { Button } from "../../../ui/Button";
 import { Input } from "../../../ui/Input";
 import { Select } from "../../../ui/Select";
@@ -10,6 +8,7 @@ import { RecipeStepsForm } from "../StepsForm/StepsForm";
 import { useRecipes } from "../../../../hooks/useRecipes";
 import { useNavigate } from "react-router";
 import { useRecipeForm } from "../../../../hooks/useRecipeForm";
+import { useRecipeTypes } from "../../../../hooks/useRecipeTypes";
 
 interface RecipeFormProps {
   formMode: "edit" | "create";
@@ -19,6 +18,7 @@ interface RecipeFormProps {
 export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
   const { recipes } = useRecipes([], null);
   const { ingredients, recipeData, steps, errors, onReset, handleFormChange, setIngredients, setSteps, setRecipeData, onSubmitForm } = useRecipeForm();
+  const { recipeTypes } = useRecipeTypes([]);
 
   let navigate = useNavigate();
 
@@ -35,6 +35,7 @@ export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
 
   const onSubmit = async () => {
     const recipe = await onSubmitForm(formMode);
+    console.log(recipe);
     if (recipe) {
       navigate(`/recipes/${recipe.id}`);
     }
@@ -70,13 +71,21 @@ export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
           <div className="flex flex-col">
             <span>Recipe Type</span>
             <Select
-              name="recipeType"
-              value={recipeData.type}
-              onChange={(e) => handleFormChange("recipeType", e.target.value)}>
-              {Object.values(RecipeType).map((x) => (
-                <option key={x}>{x}</option>
+              name="recipeTypeId"
+              value={recipeData.recipeTypeId}
+              onChange={(e) => handleFormChange("recipeTypeId", e.target.value)}>
+              <option
+                disabled
+                selected></option>
+              {recipeTypes.map((x) => (
+                <option
+                  key={x.id}
+                  value={x.id}>
+                  {x.name}
+                </option>
               ))}
             </Select>
+            {errors.has("recipeTypeId") && <span className="text-red-500 font-semibold">{errors.get("recipeTypeId")}</span>}
           </div>
           <div className="flex gap-4">
             <div className="flex flex-col flex-grow">
@@ -86,7 +95,7 @@ export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
                 type="number"
                 placeholder="Total servings"
                 value={recipeData.servings}
-                onChange={(e) => handleFormChange("servings", e.target.value)}
+                onChange={(e) => handleFormChange("servings", Number.parseInt(e.target.value))}
               />
               {errors.has("servings") && <span className="text-red-500 font-semibold">{errors.get("servings")}</span>}
             </div>
@@ -97,7 +106,7 @@ export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
                 type="number"
                 placeholder="Oven Temp"
                 value={recipeData.ovenTemp ?? ""}
-                onChange={(e) => handleFormChange("ovenTemp", e.target.value)}
+                onChange={(e) => handleFormChange("ovenTemp", Number.parseInt(e.target.value))}
               />
               {errors.has("ovenTemp") && <span className="text-red-500 font-semibold">{errors.get("ovenTemp")}</span>}
             </div>
@@ -110,7 +119,7 @@ export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
                 type="number"
                 placeholder="Prep Time (Mins)"
                 value={recipeData.prepTime}
-                onChange={(e) => handleFormChange("prepTime", e.target.value)}
+                onChange={(e) => handleFormChange("prepTime", Number.parseInt(e.target.value))}
               />
               {errors.has("prepTime") && <span className="text-red-500 font-semibold">{errors.get("prepTime")}</span>}
             </div>
@@ -121,7 +130,7 @@ export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
                 type="number"
                 placeholder="Cook Time (Mins)"
                 value={recipeData.cookTime}
-                onChange={(e) => handleFormChange("cookTime", e.target.value)}
+                onChange={(e) => handleFormChange("cookTime", Number.parseInt(e.target.value))}
               />
               {errors.has("cookTime") && <span className="text-red-500 font-semibold">{errors.get("cookTime")}</span>}
             </div>

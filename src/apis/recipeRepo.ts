@@ -1,46 +1,71 @@
-import { recipeData } from "../data/mockRecipes";
+import type { BaseResponse } from "../types/BaseResponse";
 import type { Recipe } from "../types/Recipe";
 
-export function getRecipes() {
-  return recipeData;
-}
+const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/v1`;
 
-export function getRecipeById(recipeId: string): Recipe {
-  const foundRecipe = recipeData.find((t) => t.id === recipeId);
+export async function getRecipes() {
+  const recipeResponse: Response = await fetch(`${BASE_URL}/recipes`);
 
-  if (!foundRecipe) {
-    throw new Error(`Failed to fetch recipe with ${recipeId}`);
+  if (!recipeResponse.ok) {
+    throw new Error("Failed to fetch recipes");
   }
 
-  return foundRecipe;
+  const json: BaseResponse<Recipe[]> = await recipeResponse.json();
+  console.log(json.data);
+  return json.data;
+}
+
+export async function getRecipeById(recipeId: string): Promise<Recipe> {
+  const recipeResponse: Response = await fetch(`${BASE_URL}/recipes/${recipeId}`);
+
+  if (!recipeResponse.ok) {
+    throw new Error(`Failed to fetch recipe with id ${recipeId}`);
+  }
+
+  const json: BaseResponse<Recipe> = await recipeResponse.json();
+  return json.data;
 }
 
 export async function createRecipe(recipe: Recipe) {
-  const lastItemId = recipeData[recipeData.length - 1].id;
-  recipe.id = `${Number.parseInt(lastItemId) + 1}`;
-  recipeData.push(recipe);
-  return recipe;
+  const createResponse: Response = await fetch(`${BASE_URL}/recipes/create`, {
+    method: "POST",
+    body: JSON.stringify({ ...recipe }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!createResponse.ok) {
+    throw new Error(`Failed to create recipe`);
+  }
+
+  const json: BaseResponse<Recipe> = await createResponse.json();
+  return json.data;
 }
 
 export async function updateRecipe(recipe: Recipe) {
-  const foundRecipeIndex = recipeData.findIndex((t) => t.id === recipe.id);
+  const updateResponse: Response = await fetch(`${BASE_URL}/recipes/update/${recipe.id}`, {
+    method: "PUT",
+    body: JSON.stringify({ ...recipe }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-  if (foundRecipeIndex === -1) {
-    throw new Error(`Failed to update recipe with ${recipe.id}`);
+  if (!updateResponse.ok) {
+    throw new Error(`Failed to update recipe with id ${recipe.id}`);
   }
 
-  recipeData[foundRecipeIndex] = recipe;
-  return recipeData[foundRecipeIndex];
+  const json: BaseResponse<Recipe> = await updateResponse.json();
+  return json.data;
 }
 
-export async function updateSavedRecipe(recipeId: string, recipeSaved: boolean) {
-  const foundRecipe = recipeData.find((t) => t.id === recipeId);
+export async function deleteRecipe(recipeId: string): Promise<void> {
+  const recipeResponse: Response = await fetch(`${BASE_URL}/recipes/delete/${recipeId}`, {
+    method: "DELETE",
+  });
 
-  if (!foundRecipe) {
-    throw new Error(`Failed to fetch recipe with ${recipeId}`);
-  } else {
-    foundRecipe.recipeSaved = recipeSaved;
+  if (!recipeResponse.ok) {
+    throw new Error(`Failed to fetch recipe with id ${recipeId}`);
   }
-
-  return foundRecipe;
 }

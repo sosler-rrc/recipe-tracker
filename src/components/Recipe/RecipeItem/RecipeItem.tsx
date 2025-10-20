@@ -4,13 +4,15 @@ import { RecipeItemCard } from "../RecipeItemCard/RecipeItemCard";
 import { Button } from "../../ui/Button";
 import image from "../../../assets/default-image.jpg";
 import { useNavigate } from "react-router";
+import { useRecipeTypes } from "../../../hooks/useRecipeTypes";
 
 interface RecipeItemProps {
   recipe: Recipe;
-  onRecipeSaved: (id: string, saved: boolean) => void;
+  onRecipeSaved: (recipe: Recipe) => void;
 }
 
 export function RecipeItem({ recipe, onRecipeSaved }: RecipeItemProps) {
+  const { recipeTypes } = useRecipeTypes([]);
   let navigate = useNavigate();
 
   return (
@@ -18,13 +20,13 @@ export function RecipeItem({ recipe, onRecipeSaved }: RecipeItemProps) {
       <div className="flex flex-col">
         <div className="flex justify-items-center my-2 text-center justify-between">
           <div className="text-2xl">
-            {recipe.name} - {recipe.type}
+            {recipe.name} - {recipeTypes.find((x) => x.id == recipe.recipeTypeId)?.name ?? ""}
           </div>
           <div className="flex gap-2">
             <Button onClick={() => navigate(`/recipes/${recipe.id}/edit`)}>
               <Edit />
             </Button>
-            <Button onClick={() => onRecipeSaved(recipe.id, !recipe.recipeSaved)}>{recipe.recipeSaved ? <Star fill="orange" /> : <Star />}</Button>
+            <Button onClick={() => onRecipeSaved(recipe)}>{recipe.saved ? <Star fill="orange" /> : <Star />}</Button>
             <Button>
               <Share />
             </Button>

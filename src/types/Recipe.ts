@@ -1,9 +1,8 @@
-import { RecipeType } from "./RecipeType";
 export interface Recipe {
   id: string;
   name: string;
   description: string;
-  type: RecipeType;
+  recipeTypeId: string;
 
   ingredients: string[];
   steps: string[];
@@ -11,8 +10,6 @@ export interface Recipe {
   servings: number;
   prepTime: number; // mins
   cookTime: number; // mins
-  recipeSaved: boolean;
+  saved: boolean;
   ovenTemp?: number;
-
-  image: string;
 }

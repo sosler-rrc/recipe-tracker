@@ -2,7 +2,7 @@ import type { Recipe } from "../../../types/Recipe";
 import { RecipeItem } from "../RecipeItem/RecipeItem";
 interface RecipeListProps {
   recipes: Recipe[];
-  onRecipeSaved: (id: string, saved: boolean) => void;
+  onRecipeSaved: (recipe: Recipe) => void;
 }
 
 export function RecipeList({ recipes, onRecipeSaved }: RecipeListProps) {
