@@ -11,7 +11,7 @@ interface RecipeProps {
 }
 
 export function Recipes({ recipeDependencies, recipeFilterFn }: RecipeProps) {
-  const { filteredRecipes, setSearchTerm, setRecipeType, toggleSavedRecipe } = useRecipes(recipeDependencies, recipeFilterFn);
+  const { filteredRecipes, setSearchTerm, setRecipeType, toggleSavedRecipe, deleteRecipe } = useRecipes(recipeDependencies, recipeFilterFn);
   const { recipeTypes } = useRecipeTypes([]);
 
   return (
@@ -38,6 +38,7 @@ export function Recipes({ recipeDependencies, recipeFilterFn }: RecipeProps) {
       <RecipeList
         recipes={filteredRecipes}
         onRecipeSaved={toggleSavedRecipe}
+        onRecipeDelete={deleteRecipe}
       />
     </div>
   );

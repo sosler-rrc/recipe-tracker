@@ -1,4 +1,4 @@
-import { Edit, Share, Star } from "lucide-react";
+import { Edit, Share, Star, Trash } from "lucide-react";
 import type { Recipe } from "../../../types/Recipe";
 import { RecipeItemCard } from "../RecipeItemCard/RecipeItemCard";
 import { Button } from "../../ui/Button";
@@ -9,9 +9,10 @@ import { useRecipeTypes } from "../../../hooks/useRecipeTypes";
 interface RecipeItemProps {
   recipe: Recipe;
   onRecipeSaved: (recipe: Recipe) => void;
+  onRecipeDelete: (recipeId: string) => void;
 }
 
-export function RecipeItem({ recipe, onRecipeSaved }: RecipeItemProps) {
+export function RecipeItem({ recipe, onRecipeSaved, onRecipeDelete }: RecipeItemProps) {
   const { recipeTypes } = useRecipeTypes([]);
   let navigate = useNavigate();
 
@@ -26,10 +27,10 @@ export function RecipeItem({ recipe, onRecipeSaved }: RecipeItemProps) {
             <Button onClick={() => navigate(`/recipes/${recipe.id}/edit`)}>
               <Edit />
             </Button>
-            <Button onClick={() => onRecipeSaved(recipe)}>{recipe.saved ? <Star fill="orange" /> : <Star />}</Button>
-            <Button>
-              <Share />
+            <Button onClick={() => onRecipeDelete(recipe.id)}>
+              <Trash />
             </Button>
+            <Button onClick={() => onRecipeSaved(recipe)}>{recipe.saved ? <Star fill="orange" /> : <Star />}</Button>
           </div>
         </div>
         <span>Preptime: {recipe.prepTime} mins</span>

@@ -8,7 +8,7 @@ interface MyRecipesProps {
   recipeFilterFn: ((recipe: Recipe) => boolean) | null;
 }
 export function MyRecipes({ recipeDependencies, recipeFilterFn }: MyRecipesProps) {
-  const { recipes, toggleSavedRecipe } = useRecipes(recipeDependencies, recipeFilterFn);
+  const { recipes, toggleSavedRecipe, deleteRecipe } = useRecipes(recipeDependencies, recipeFilterFn);
 
   const NoRecipesFound = () => {
     return (
@@ -31,6 +31,7 @@ export function MyRecipes({ recipeDependencies, recipeFilterFn }: MyRecipesProps
       <div className="p-16">
         <RecipeList
           recipes={recipes}
+          onRecipeDelete={deleteRecipe}
           onRecipeSaved={toggleSavedRecipe}
         />
       </div>

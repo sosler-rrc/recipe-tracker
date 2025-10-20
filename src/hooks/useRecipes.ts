@@ -29,6 +29,16 @@ export function useRecipes(dependencies: unknown[], filterFn?: ((recipe: Recipe)
     }
   };
 
+  const deleteRecipe = async (recipeId: string) => {
+    try {
+      await RecipeService.deleteRecipe(recipeId);
+
+      await fetchRecipes();
+    } catch (errorObject) {
+      setError(`${errorObject}`);
+    }
+  };
+
   const toggleSavedRecipe = async (recipe: Recipe) => {
     try {
       await RecipeService.toggleSavedRecipe(recipe);
@@ -72,6 +82,7 @@ export function useRecipes(dependencies: unknown[], filterFn?: ((recipe: Recipe)
     recipes,
     error,
     toggleSavedRecipe,
+    deleteRecipe,
     setSearchTerm,
     setRecipeType,
   };

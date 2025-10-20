@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 export function ViewRecipe() {
   let navigate = useNavigate();
-  const { recipes, toggleSavedRecipe } = useRecipes([], null);
+  const { recipes, toggleSavedRecipe, deleteRecipe } = useRecipes([], null);
   const { id } = useParams();
 
   const selectedRecipe = recipes.find((x) => x.id == id);
@@ -23,6 +23,7 @@ export function ViewRecipe() {
     <RecipeItem
       recipe={selectedRecipe}
       onRecipeSaved={toggleSavedRecipe}
+      onRecipeDelete={deleteRecipe}
     />
   );
 }

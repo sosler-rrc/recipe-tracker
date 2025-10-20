@@ -3,9 +3,10 @@ import { RecipeItem } from "../RecipeItem/RecipeItem";
 interface RecipeListProps {
   recipes: Recipe[];
   onRecipeSaved: (recipe: Recipe) => void;
+  onRecipeDelete: (recipeId: string) => void;
 }
 
-export function RecipeList({ recipes, onRecipeSaved }: RecipeListProps) {
+export function RecipeList({ recipes, onRecipeSaved, onRecipeDelete }: RecipeListProps) {
   return (
     <section className="recipe-list">
       {recipes.map((x) => (
@@ -13,6 +14,7 @@ export function RecipeList({ recipes, onRecipeSaved }: RecipeListProps) {
           recipe={x}
           key={x.id}
           onRecipeSaved={onRecipeSaved}
+          onRecipeDelete={onRecipeDelete}
         />
       ))}
     </section>
