@@ -1,35 +1,47 @@
-import { Edit, Share, Star } from "lucide-react";
+import { Edit, Star, Trash } from "lucide-react";
 import type { Recipe } from "../../../types/Recipe";
 import { RecipeItemCard } from "../RecipeItemCard/RecipeItemCard";
 import { Button } from "../../ui/Button";
 import image from "../../../assets/default-image.jpg";
 import { useNavigate } from "react-router";
+import type { RecipeType } from "../../../types/RecipeType";
 
 interface RecipeItemProps {
   recipe: Recipe;
-  onRecipeSaved: (id: string, saved: boolean) => void;
+  recipeTypes: RecipeType[];
+  onRecipeSaved: (recipe: Recipe) => void;
+  onRecipeDelete: (recipeId: string) => void;
 }
 
-export function RecipeItem({ recipe, onRecipeSaved }: RecipeItemProps) {
+export function RecipeItem({ recipe, recipeTypes, onRecipeSaved, onRecipeDelete }: RecipeItemProps) {
   let navigate = useNavigate();
+
+  function formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toLocaleString("en-US", {
+      dateStyle: "medium",
+      timeStyle: "medium",
+    });
+  }
 
   return (
     <section className="recipe-item my-4 border p-4 rounded bg-stone-100">
       <div className="flex flex-col">
-        <div className="flex justify-items-center my-2 text-center justify-between">
+        <div className="flex justify-items-center mt-2 text-center justify-between">
           <div className="text-2xl">
-            {recipe.name} - {recipe.type}
+            {recipe.name} - {recipeTypes.find((x) => x.id == recipe.recipeTypeId)?.name ?? ""}
           </div>
           <div className="flex gap-2">
             <Button onClick={() => navigate(`/recipes/${recipe.id}/edit`)}>
               <Edit />
             </Button>
-            <Button onClick={() => onRecipeSaved(recipe.id, !recipe.recipeSaved)}>{recipe.recipeSaved ? <Star fill="orange" /> : <Star />}</Button>
-            <Button>
-              <Share />
+            <Button onClick={() => onRecipeDelete(recipe.id)}>
+              <Trash />
             </Button>
+            <Button onClick={() => onRecipeSaved(recipe)}>{recipe.saved ? <Star fill="orange" /> : <Star />}</Button>
           </div>
         </div>
+        <span className="text-sm mb-2">{formatDate(recipe.updatedAt.toString())}</span>
         <span>Preptime: {recipe.prepTime} mins</span>
         <span>Cooktime: {recipe.cookTime} mins</span>
         {recipe.ovenTemp ? <span>Oven Preheat: {recipe.ovenTemp}&deg;F</span> : <></>}
