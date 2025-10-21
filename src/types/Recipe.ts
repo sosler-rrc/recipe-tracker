@@ -12,4 +12,6 @@ export interface Recipe {
   cookTime: number; // mins
   saved: boolean;
   ovenTemp?: number;
+  updatedAt: Date;
+  createdAt: Date;
 }

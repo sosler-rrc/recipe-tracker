@@ -3,20 +3,15 @@ import { Layout } from "./components/Layout/Layout";
 import { Recipes } from "./pages/Recipe/AllRecipes";
 import { Landing } from "./pages/Landing";
 import { NotFound } from "./pages/NotFound";
-import { useState } from "react";
 import { MyRecipes } from "./pages/Recipe/MyRecipes";
 import { CreateRecipe } from "./pages/Recipe/CreateRecipe";
 import { ToastContainer } from "react-toastify";
 import { UpdateRecipe } from "./pages/Recipe/UpdateRecipe";
 import { ViewRecipe } from "./pages/Recipe/ViewRecipe";
+import { useLogin } from "./hooks/useLogin";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState<boolean>(false);
-
-  const onLogin = () => {
-    setLoggedIn(!loggedIn);
-  };
-
+  const { loggedIn, onLogin } = useLogin();
   return (
     <BrowserRouter>
       <Routes>

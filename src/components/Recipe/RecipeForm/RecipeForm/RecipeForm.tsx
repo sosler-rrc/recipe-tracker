@@ -16,7 +16,7 @@ interface RecipeFormProps {
 }
 
 export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
-  const { recipes } = useRecipes([], null);
+  const { recipes } = useRecipes([]);
   const { ingredients, recipeData, steps, errors, onReset, handleFormChange, setIngredients, setSteps, setRecipeData, onSubmitForm } = useRecipeForm();
   const { recipeTypes } = useRecipeTypes([]);
 
@@ -35,7 +35,6 @@ export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
 
   const onSubmit = async () => {
     const recipe = await onSubmitForm(formMode);
-    console.log(recipe);
     if (recipe) {
       navigate(`/recipes/${recipe.id}`);
     }

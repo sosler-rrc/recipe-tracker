@@ -2,10 +2,12 @@ import { useNavigate, useParams } from "react-router";
 import { RecipeItem } from "../../components/Recipe/RecipeItem/RecipeItem";
 import { useRecipes } from "../../hooks/useRecipes";
 import { useEffect } from "react";
+import { useRecipeTypes } from "../../hooks/useRecipeTypes";
 
 export function ViewRecipe() {
   let navigate = useNavigate();
-  const { recipes, toggleSavedRecipe, deleteRecipe } = useRecipes([], null);
+  const { recipes, toggleSavedRecipe, deleteRecipe } = useRecipes([]);
+  const { recipeTypes } = useRecipeTypes([]);
   const { id } = useParams();
 
   const selectedRecipe = recipes.find((x) => x.id == id);
@@ -22,6 +24,7 @@ export function ViewRecipe() {
   return (
     <RecipeItem
       recipe={selectedRecipe}
+      recipeTypes={recipeTypes}
       onRecipeSaved={toggleSavedRecipe}
       onRecipeDelete={deleteRecipe}
     />
