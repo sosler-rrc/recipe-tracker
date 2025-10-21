@@ -2,13 +2,17 @@ import { Link } from "react-router";
 import type { Recipe } from "../../types/Recipe";
 import { useRecipes } from "../../hooks/useRecipes";
 import { RecipeList } from "../../components/Recipe/RecipeList/RecipeList";
+import { useFilteredRecipes } from "../../hooks/useFilteredRecipes";
+import { useRecipeTypes } from "../../hooks/useRecipeTypes";
 
 interface MyRecipesProps {
   recipeDependencies: any[];
   recipeFilterFn: ((recipe: Recipe) => boolean) | null;
 }
 export function MyRecipes({ recipeDependencies, recipeFilterFn }: MyRecipesProps) {
-  const { recipes, toggleSavedRecipe } = useRecipes(recipeDependencies, recipeFilterFn);
+  const { recipes, toggleSavedRecipe, deleteRecipe } = useRecipes(recipeDependencies);
+  const { recipeTypes } = useRecipeTypes([]);
+  const { filteredRecipes } = useFilteredRecipes(recipes, [], recipeFilterFn);
 
   const NoRecipesFound = () => {
     return (
@@ -27,10 +31,12 @@ export function MyRecipes({ recipeDependencies, recipeFilterFn }: MyRecipesProps
 
   return (
     <div className="py-8">
-      {recipes.length == 0 ? NoRecipesFound() : <></>}
+      {filteredRecipes.length == 0 ? NoRecipesFound() : <></>}
       <div className="p-16">
         <RecipeList
-          recipes={recipes}
+          recipes={filteredRecipes}
+          recipeTypes={recipeTypes}
+          onRecipeDelete={deleteRecipe}
           onRecipeSaved={toggleSavedRecipe}
         />
       </div>

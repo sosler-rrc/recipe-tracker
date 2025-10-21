@@ -1,28 +1,15 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import * as RecipeService from "../services/recipeService";
 import type { Recipe } from "../types/Recipe";
-import { RecipeType } from "../types/RecipeType";
+import { toast } from "react-toastify";
 
-interface FilterOptions {
-  searchTerm: string;
-  recipeType: string;
-}
-
-export function useRecipes(dependencies: unknown[], filterFn?: ((recipe: Recipe) => boolean) | null) {
+export function useRecipes(dependencies: unknown[]) {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [error, setError] = useState<string | null>();
-  const [filters, setFilters] = useState<FilterOptions>({
-    searchTerm: "",
-    recipeType: "All",
-  });
 
   const fetchRecipes = async () => {
     try {
       let result = await RecipeService.fetchRecipes();
-
-      if (filterFn) {
-        result = result.filter(filterFn);
-      }
 
       setRecipes([...result]);
     } catch (errorObject) {
@@ -30,9 +17,16 @@ export function useRecipes(dependencies: unknown[], filterFn?: ((recipe: Recipe)
     }
   };
 
-  const toggleSavedRecipe = async (recipeId: string) => {
+  const deleteRecipe = async (recipeId: string) => {
     try {
-      await RecipeService.toggleSavedRecipe(recipeId);
+      await RecipeService.deleteRecipe(recipeId);
+      toast("Recipe has been deleted", {
+        position: "bottom-center",
+        theme: "light",
+        hideProgressBar: true,
+        closeButton: false,
+        autoClose: 2500,
+      });
 
       await fetchRecipes();
     } catch (errorObject) {
@@ -40,32 +34,21 @@ export function useRecipes(dependencies: unknown[], filterFn?: ((recipe: Recipe)
     }
   };
 
-  const filterOptions = useMemo(() => {
-    const recipeTypes = [...Object.values(RecipeType)].filter((filter) => recipes.findIndex((x) => x.type === filter) !== -1) as string[];
-    return ["All", ...recipeTypes];
-  }, [recipes]);
-
-  const filteredRecipes = useMemo(() => {
-    let result = [...recipes];
-
-    if (filters.recipeType !== "All") {
-      result = result.filter((recipe) => recipe.type === filters.recipeType);
+  const toggleSavedRecipe = async (recipe: Recipe) => {
+    try {
+      const message = `${!recipe.saved ? "Added new item to saved recipes" : "Removed item from saved recipes"}`;
+      await RecipeService.toggleSavedRecipe(recipe);
+      toast(message, {
+        position: "bottom-center",
+        theme: "light",
+        hideProgressBar: true,
+        closeButton: false,
+        autoClose: 2500,
+      });
+      await fetchRecipes();
+    } catch (errorObject) {
+      setError(`${errorObject}`);
     }
-
-    if (filters.searchTerm) {
-      const st = filters.searchTerm.toLowerCase();
-      result = result.filter((recipe) => recipe.name.toLowerCase().includes(st) || recipe.type.toLowerCase().includes(st));
-    }
-
-    return result;
-  }, [recipes, filters]);
-
-  const setSearchTerm = (searchTerm: string) => {
-    setFilters((prev) => ({ ...prev, searchTerm }));
-  };
-
-  const setRecipeType = (recipeType: string) => {
-    setFilters((prev) => ({ ...prev, recipeType }));
   };
 
   useEffect(() => {
@@ -73,12 +56,9 @@ export function useRecipes(dependencies: unknown[], filterFn?: ((recipe: Recipe)
   }, [...dependencies]);
 
   return {
-    filteredRecipes,
     recipes,
     error,
     toggleSavedRecipe,
-    filterOptions,
-    setSearchTerm,
-    setRecipeType,
+    deleteRecipe,
   };
 }
