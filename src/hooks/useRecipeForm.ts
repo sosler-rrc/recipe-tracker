@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import * as RecipeService from "../services/recipeService";
+import * as ValidateRecipeService from "../services/validateRecipeService";
 import type { Recipe } from "../types/Recipe";
 import { toast } from "react-toastify";
 
@@ -58,7 +59,7 @@ export function useRecipeForm() {
   };
 
   const onSubmitForm = async (formMode: "create" | "edit") => {
-    const recipeErrors = await RecipeService.validateRecipe(recipeData, ingredients, steps);
+    const recipeErrors = await ValidateRecipeService.validateRecipe(recipeData, ingredients, steps);
     setErrors(recipeErrors);
     if (recipeErrors.size == 0) {
       const recipe = {
@@ -66,16 +67,15 @@ export function useRecipeForm() {
         ingredients,
         steps,
       };
-      let toastMessage = `Successfully created new recipe ${recipe.name}!`;
-
       if (formMode == "create") {
         recipe.saved = true;
         const newRecipe = await RecipeService.createNewRecipe(recipe);
         recipe.id = newRecipe.id;
       } else {
-        toastMessage = "Successfully updated recipe!";
         await RecipeService.updateRecipe(recipe);
       }
+      //display a toast message for a successful update/create
+      const toastMessage = `Successfully ${formMode == "create" ? "created new" : "updated"}  recipe ${recipe.name}!`;
       toast(toastMessage, {
         position: "bottom-center",
         theme: "light",

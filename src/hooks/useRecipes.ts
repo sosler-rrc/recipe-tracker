@@ -20,6 +20,7 @@ export function useRecipes(dependencies: unknown[]) {
   const deleteRecipe = async (recipeId: string) => {
     try {
       await RecipeService.deleteRecipe(recipeId);
+      //display a toast message when a recipe has been removed
       toast("Recipe has been deleted", {
         position: "bottom-center",
         theme: "light",
@@ -36,6 +37,7 @@ export function useRecipes(dependencies: unknown[]) {
 
   const toggleSavedRecipe = async (recipe: Recipe) => {
     try {
+      //display a toast message when a recipe has saved / un-saved
       const message = `${!recipe.saved ? "Added new item to saved recipes" : "Removed item from saved recipes"}`;
       await RecipeService.toggleSavedRecipe(recipe);
       toast(message, {
