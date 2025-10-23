@@ -7,6 +7,7 @@ interface FilterOptions {
   recipeTypeId: string;
 }
 
+//This hook will consume a list of recipes & recipeTypes used for filtering along with a filter function callback
 export function useFilteredRecipes(recipes: Recipe[], recipeTypes: RecipeType[], filterFn?: ((recipe: Recipe) => boolean) | null) {
   const [filters, setFilters] = useState<FilterOptions>({
     searchTerm: "",
@@ -20,6 +21,7 @@ export function useFilteredRecipes(recipes: Recipe[], recipeTypes: RecipeType[],
   }, [recipeTypes]);
 
   const filteredRecipes = useMemo(() => {
+    //sort recipes by updatedAt field in desc order so most recent updated recipe is first
     const sortedRecipes = [...recipes].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
     let result = [...sortedRecipes];
 
@@ -30,11 +32,13 @@ export function useFilteredRecipes(recipes: Recipe[], recipeTypes: RecipeType[],
     const { searchTerm, recipeTypeId } = filters;
 
     if (recipeTypeId !== "All") {
+      //filter recipes by the recipeTypeId field when not equal to "All"
       result = result.filter((r) => r.recipeTypeId === recipeTypeId);
     }
 
     if (searchTerm) {
       const st = searchTerm.toLowerCase();
+      //filter recipes using searchTerm and find matching recipe names or recipeTypes
       result = result.filter((recipe) => {
         const recipeTypeName = recipeTypeMap.get(recipe.recipeTypeId) || "";
         return recipe.name.toLowerCase().includes(st) || recipeTypeName.includes(st);

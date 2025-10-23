@@ -1,6 +1,7 @@
 import type { BaseResponse } from "../types/BaseResponse";
 import type { Recipe } from "../types/Recipe";
 
+//Setup the base url with the route prefix using the VITE_API_BASE_URL variable defined in the .env file
 const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/v1`;
 
 export async function getRecipes() {
@@ -11,7 +12,6 @@ export async function getRecipes() {
   }
 
   const json: BaseResponse<Recipe[]> = await recipeResponse.json();
-  console.log(json.data);
   return json.data;
 }
 

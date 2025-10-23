@@ -23,6 +23,7 @@ export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
   let navigate = useNavigate();
 
   useEffect(() => {
+    //When the formMode is "edit" and a recipeId is passed in, find the associated recipe and use that to fill the form fields for an update
     if (formMode == "edit" && recipeId) {
       const editedRecipe = recipes.find((x) => x.id == recipeId);
       if (editedRecipe) {
