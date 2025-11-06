@@ -3,6 +3,7 @@ import * as RecipeService from "../services/recipeService";
 import * as ValidateRecipeService from "../services/validateRecipeService";
 import type { Recipe } from "../types/Recipe";
 import { toast } from "react-toastify";
+import { useAuth } from "@clerk/clerk-react";
 
 const DEFAULT_RECIPE = {
   name: "",
@@ -18,6 +19,7 @@ const DEFAULT_RECIPE = {
 } as any;
 
 export function useRecipeForm() {
+  const { getToken, isSignedIn } = useAuth();
   const [recipeData, setRecipeData] = useState<Recipe>(DEFAULT_RECIPE);
   const [errors, setErrors] = useState<Map<string, string>>(new Map());
   const [steps, setSteps] = useState<string[]>([]);
@@ -59,6 +61,11 @@ export function useRecipeForm() {
   };
 
   const onSubmitForm = async (formMode: "create" | "edit") => {
+    let sessionToken = (await getToken()) ?? null;
+
+    if (!sessionToken) {
+      throw new Error("Unauthorized");
+    }
     const recipeErrors = await ValidateRecipeService.validateRecipe(recipeData, ingredients, steps);
     setErrors(recipeErrors);
     if (recipeErrors.size == 0) {
@@ -69,10 +76,10 @@ export function useRecipeForm() {
       };
       if (formMode == "create") {
         recipe.saved = true;
-        const newRecipe = await RecipeService.createNewRecipe(recipe);
+        const newRecipe = await RecipeService.createNewRecipe(recipe, sessionToken);
         recipe.id = newRecipe.id;
       } else {
-        await RecipeService.updateRecipe(recipe);
+        await RecipeService.updateRecipe(recipe, sessionToken);
       }
       //display a toast message for a successful update/create
       const toastMessage = `Successfully ${formMode == "create" ? "created new" : "updated"}  recipe ${recipe.name}!`;

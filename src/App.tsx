@@ -11,18 +11,12 @@ import { ViewRecipe } from "./pages/Recipe/ViewRecipe";
 import { useLogin } from "./hooks/useLogin";
 
 function App() {
-  const { loggedIn, onLogin } = useLogin();
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path="/"
-          element={
-            <Layout
-              isLoggedIn={loggedIn}
-              onLogin={onLogin}
-            />
-          }>
+          element={<Layout />}>
           <Route
             index
             element={<Landing />}

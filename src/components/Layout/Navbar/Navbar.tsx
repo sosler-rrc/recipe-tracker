@@ -1,12 +1,10 @@
 import { Link } from "react-router";
 import { Button } from "../../ui/Button";
+import { SignedIn, SignedOut, SignInButton, useAuth, UserButton } from "@clerk/clerk-react";
 
-interface NavbarProps {
-  isLoggedIn: boolean;
-  onLogin: () => void;
-}
+export function Navbar() {
+  const { getToken, isSignedIn } = useAuth();
 
-export function Navbar({ onLogin, isLoggedIn }: NavbarProps) {
   return (
     <header>
       <nav className="flex justify-between">
@@ -19,21 +17,26 @@ export function Navbar({ onLogin, isLoggedIn }: NavbarProps) {
           <Link to="/recipes">
             <Button>Recipes</Button>
           </Link>
-          {isLoggedIn ? (
+          {isSignedIn ? (
             <Link to="/recipes/my-recipes">
               <Button>Saved Recipes</Button>
             </Link>
           ) : (
             <></>
           )}
-          {isLoggedIn ? (
+          {isSignedIn ? (
             <Link to="/recipes/create">
               <Button>Create Recipe</Button>
             </Link>
           ) : (
             <></>
           )}
-          <Button onClick={() => onLogin()}>{isLoggedIn ? "Logout" : "Login / Signup"}</Button>
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
         </div>
       </nav>
     </header>
