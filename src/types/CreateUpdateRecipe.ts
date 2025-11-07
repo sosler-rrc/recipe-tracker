@@ -1,7 +1,5 @@
-import type { User } from "./User";
-
-export interface Recipe {
-  id: string;
+export interface CreateUpdateRecipe {
+  id?: string;
   name: string;
   description: string;
   recipeTypeId: string;
@@ -13,8 +11,4 @@ export interface Recipe {
   prepTime: number; // mins
   cookTime: number; // mins
   ovenTemp?: number;
-  updatedAt: Date;
-  createdAt: Date;
-  user: User;
-  userId: string;
 }

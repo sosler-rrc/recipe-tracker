@@ -1,4 +1,5 @@
 import type { BaseResponse } from "../types/BaseResponse";
+import type { CreateUpdateRecipe } from "../types/CreateUpdateRecipe";
 import type { Recipe } from "../types/Recipe";
 
 //Setup the base url with the route prefix using the VITE_API_BASE_URL variable defined in the .env file
@@ -19,6 +20,21 @@ export async function getRecipes(sessionToken: string) {
   return json.data;
 }
 
+export async function getUserSavedRecipes(sessionToken: string) {
+  const recipeResponse: Response = await fetch(`${BASE_URL}/user-saved-recipes`, {
+    headers: {
+      Authorization: `Bearer ${sessionToken}`,
+    },
+  });
+
+  if (!recipeResponse.ok) {
+    throw new Error("Failed to fetch recipes");
+  }
+
+  const json: BaseResponse<string[]> = await recipeResponse.json();
+  return json.data;
+}
+
 export async function getRecipeById(recipeId: string, sessionToken: string): Promise<Recipe> {
   const recipeResponse: Response = await fetch(`${BASE_URL}/recipes/${recipeId}`, {
     headers: {
@@ -34,7 +50,7 @@ export async function getRecipeById(recipeId: string, sessionToken: string): Pro
   return json.data;
 }
 
-export async function createRecipe(recipe: Recipe, sessionToken: string) {
+export async function createRecipe(recipe: CreateUpdateRecipe, sessionToken: string) {
   const createResponse: Response = await fetch(`${BASE_URL}/recipes/create`, {
     method: "POST",
     body: JSON.stringify({ ...recipe }),
@@ -52,7 +68,7 @@ export async function createRecipe(recipe: Recipe, sessionToken: string) {
   return json.data;
 }
 
-export async function updateRecipe(recipe: Recipe, sessionToken: string) {
+export async function updateRecipe(recipe: CreateUpdateRecipe, sessionToken: string) {
   const updateResponse: Response = await fetch(`${BASE_URL}/recipes/update/${recipe.id}`, {
     method: "PUT",
     body: JSON.stringify({ ...recipe }),
@@ -80,5 +96,18 @@ export async function deleteRecipe(recipeId: string, sessionToken: string): Prom
 
   if (!recipeResponse.ok) {
     throw new Error(`Failed to fetch recipe with id ${recipeId}`);
+  }
+}
+
+export async function toggleUserSavedRecipe(recipeId: string, sessionToken: string): Promise<void> {
+  const recipeResponse: Response = await fetch(`${BASE_URL}/user-saved-recipes/${recipeId}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${sessionToken}`,
+    },
+  });
+
+  if (!recipeResponse.ok) {
+    throw new Error(`Failed to save recipe with id ${recipeId}`);
   }
 }

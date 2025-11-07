@@ -27,7 +27,8 @@ export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
     if (formMode == "edit" && recipeId) {
       const editedRecipe = recipes.find((x) => x.id == recipeId);
       if (editedRecipe) {
-        setRecipeData(editedRecipe);
+        const { updatedAt, createdAt, user, userId, ...data } = { ...editedRecipe };
+        setRecipeData(data);
         setIngredients(editedRecipe.ingredients);
         setSteps(editedRecipe.steps);
       }

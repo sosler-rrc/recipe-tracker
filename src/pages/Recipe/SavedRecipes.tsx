@@ -2,13 +2,15 @@ import { useRecipes } from "../../hooks/useRecipes";
 import { RecipeList } from "../../components/Recipe/RecipeList/RecipeList";
 import { useFilteredRecipes } from "../../hooks/useFilteredRecipes";
 import { useRecipeTypes } from "../../hooks/useRecipeTypes";
-import { useUser } from "@clerk/clerk-react";
 
-export function MyRecipes() {
+export function SavedRecipes() {
   const { recipes, userSavedRecipeIds, loading, toggleSavedRecipe, deleteRecipe } = useRecipes([]);
-  const { user } = useUser();
   const { recipeTypes } = useRecipeTypes([]);
-  const { filteredRecipes, setRecipeType, setSearchTerm } = useFilteredRecipes(recipes, [], (recipe) => recipe.userId == user?.id);
+  const { filteredRecipes, setRecipeType, setSearchTerm } = useFilteredRecipes(
+    recipes,
+    [],
+    (recipe) => userSavedRecipeIds.findIndex((x) => x == recipe.id) != -1
+  );
 
   return (
     <div className="p-16">

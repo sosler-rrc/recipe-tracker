@@ -8,7 +8,7 @@ import { CreateRecipe } from "./pages/Recipe/CreateRecipe";
 import { ToastContainer } from "react-toastify";
 import { UpdateRecipe } from "./pages/Recipe/UpdateRecipe";
 import { ViewRecipe } from "./pages/Recipe/ViewRecipe";
-import { useLogin } from "./hooks/useLogin";
+import { SavedRecipes } from "./pages/Recipe/SavedRecipes";
 
 function App() {
   return (
@@ -24,21 +24,15 @@ function App() {
           <Route path="recipes">
             <Route
               index
-              element={
-                <Recipes
-                  recipeDependencies={[]}
-                  recipeFilterFn={null}
-                />
-              }
+              element={<Recipes />}
+            />
+            <Route
+              path="saved-recipes"
+              element={<SavedRecipes />}
             />
             <Route
               path="my-recipes"
-              element={
-                <MyRecipes
-                  recipeDependencies={[]}
-                  recipeFilterFn={(recipe) => recipe.saved}
-                />
-              }
+              element={<MyRecipes />}
             />
             <Route
               path=":id"
