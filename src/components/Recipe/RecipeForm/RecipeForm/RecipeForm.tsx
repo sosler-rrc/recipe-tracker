@@ -9,6 +9,7 @@ import { useRecipes } from "../../../../hooks/useRecipes";
 import { useNavigate } from "react-router";
 import { useRecipeForm } from "../../../../hooks/useRecipeForm";
 import { useRecipeTypes } from "../../../../hooks/useRecipeTypes";
+import { useUser } from "@clerk/clerk-react";
 
 interface RecipeFormProps {
   formMode: "edit" | "create";
@@ -21,7 +22,11 @@ export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
   const { recipeTypes } = useRecipeTypes([]);
 
   let navigate = useNavigate();
+  const { user } = useUser();
 
+  if (!user) {
+    navigate("/not-found");
+  }
   useEffect(() => {
     //When the formMode is "edit" and a recipeId is passed in, find the associated recipe and use that to fill the form fields for an update
     if (formMode == "edit" && recipeId) {
