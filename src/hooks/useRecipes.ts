@@ -12,18 +12,20 @@ export function useRecipes(dependencies: unknown[]) {
   const [error, setError] = useState<string | null>();
 
   const fetchRecipes = useCallback(async () => {
-    if (!isSignedIn) return;
     setLoading(true);
     try {
-      let sessionToken = (await getToken()) ?? null;
-
-      if (!sessionToken) {
-        throw new Error("Unauthorized");
-      }
-      const [recipesData, savedIds] = await Promise.all([RecipeService.fetchRecipes(sessionToken), RecipeService.fetchUserSavedRecipes(sessionToken)]);
-
+      const recipesData = await RecipeService.fetchRecipes();
       setRecipes(recipesData);
-      setUserSavedRecipeIds(savedIds);
+
+      if (isSignedIn) {
+        const sessionToken = (await getToken()) ?? null;
+        if (sessionToken) {
+          const savedIds = await RecipeService.fetchUserSavedRecipes(sessionToken);
+          setUserSavedRecipeIds(savedIds);
+        }
+      } else {
+        setUserSavedRecipeIds([]);
+      }
     } catch (errorObject) {
       setError(`${errorObject}`);
     } finally {
@@ -34,23 +36,26 @@ export function useRecipes(dependencies: unknown[]) {
   const deleteRecipe = useCallback(
     async (recipeId: string) => {
       try {
-        let sessionToken = (await getToken()) ?? null;
+        const res = window.confirm("Are you sure you'd like to delete this recipe? This cannot be undone.");
 
-        if (!sessionToken) {
-          throw new Error("Unauthorized");
+        if (res) {
+          let sessionToken = (await getToken()) ?? null;
+
+          if (!sessionToken) {
+            throw new Error("Unauthorized");
+          }
+          await RecipeService.deleteRecipe(recipeId, sessionToken);
+
+          setRecipes((prev) => prev.filter((r) => r.id !== recipeId));
+          //display a toast message when a recipe has been removed
+          toast("Recipe has been deleted", {
+            position: "bottom-center",
+            theme: "light",
+            hideProgressBar: true,
+            closeButton: false,
+            autoClose: 2500,
+          });
         }
-        await RecipeService.deleteRecipe(recipeId, sessionToken);
-
-        setRecipes((prev) => prev.filter((r) => r.id !== recipeId));
-
-        //display a toast message when a recipe has been removed
-        toast("Recipe has been deleted", {
-          position: "bottom-center",
-          theme: "light",
-          hideProgressBar: true,
-          closeButton: false,
-          autoClose: 2500,
-        });
       } catch (errorObject) {
         setError(`${errorObject}`);
       }
@@ -89,7 +94,7 @@ export function useRecipes(dependencies: unknown[]) {
   useEffect(() => {
     console.log("Fetching recipes...");
     fetchRecipes();
-  }, [fetchRecipes, ...dependencies]);
+  }, [...dependencies]);
 
   return {
     recipes,
