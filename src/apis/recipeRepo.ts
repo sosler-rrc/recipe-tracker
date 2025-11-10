@@ -47,7 +47,7 @@ export async function getRecipeById(recipeId: string, sessionToken: string): Pro
 }
 
 export async function createRecipe(recipe: CreateUpdateRecipe, sessionToken: string) {
-  const createResponse: Response = await fetch(`${BASE_URL}/recipes/create`, {
+  const createResponse: Response = await fetch(`${BASE_URL}/recipes`, {
     method: "POST",
     body: JSON.stringify({ ...recipe }),
     headers: {
@@ -65,7 +65,7 @@ export async function createRecipe(recipe: CreateUpdateRecipe, sessionToken: str
 }
 
 export async function updateRecipe(recipe: CreateUpdateRecipe, sessionToken: string) {
-  const updateResponse: Response = await fetch(`${BASE_URL}/recipes/update/${recipe.id}`, {
+  const updateResponse: Response = await fetch(`${BASE_URL}/recipes/${recipe.id}`, {
     method: "PUT",
     body: JSON.stringify({ ...recipe }),
     headers: {
@@ -83,7 +83,7 @@ export async function updateRecipe(recipe: CreateUpdateRecipe, sessionToken: str
 }
 
 export async function deleteRecipe(recipeId: string, sessionToken: string): Promise<void> {
-  const recipeResponse: Response = await fetch(`${BASE_URL}/recipes/delete/${recipeId}`, {
+  const recipeResponse: Response = await fetch(`${BASE_URL}/recipes/${recipeId}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${sessionToken}`,
@@ -91,7 +91,7 @@ export async function deleteRecipe(recipeId: string, sessionToken: string): Prom
   });
 
   if (!recipeResponse.ok) {
-    throw new Error(`Failed to fetch recipe with id ${recipeId}`);
+    throw new Error(`Failed to delete recipe with id ${recipeId}`);
   }
 }
 
@@ -105,5 +105,36 @@ export async function toggleUserSavedRecipe(recipeId: string, sessionToken: stri
 
   if (!recipeResponse.ok) {
     throw new Error(`Failed to save recipe with id ${recipeId}`);
+  }
+}
+
+export async function createRecipeComment(recipeId: string, sessionToken: string, text: string) {
+  const createResponse: Response = await fetch(`${BASE_URL}/recipe-comment`, {
+    method: "POST",
+    body: JSON.stringify({ recipeId, text }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${sessionToken}`,
+    },
+  });
+
+  if (!createResponse.ok) {
+    throw new Error(`Failed to create recipe comment`);
+  }
+
+  const json: BaseResponse<Recipe> = await createResponse.json();
+  return json.data;
+}
+
+export async function deleteRecipeComment(commentId: string, sessionToken: string): Promise<void> {
+  const recipeResponse: Response = await fetch(`${BASE_URL}/recipe-comment/${commentId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${sessionToken}`,
+    },
+  });
+
+  if (!recipeResponse.ok) {
+    throw new Error(`Failed to delete recipe comment with id ${commentId}`);
   }
 }

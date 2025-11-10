@@ -4,7 +4,7 @@ import { useRecipeTypes } from "../../hooks/useRecipeTypes";
 import { useFilteredRecipes } from "../../hooks/useFilteredRecipes";
 
 export function Recipes() {
-  const { recipes, userSavedRecipeIds, loading, toggleSavedRecipe, deleteRecipe } = useRecipes([]);
+  const { recipes, userSavedRecipeIds, loading, toggleSavedRecipe, deleteRecipe, createRecipeComment, deleteRecipeComment } = useRecipes([]);
   const { recipeTypes } = useRecipeTypes([]);
   const { filteredRecipes, setSearchTerm, setRecipeType } = useFilteredRecipes(recipes, recipeTypes, null);
 
@@ -17,6 +17,8 @@ export function Recipes() {
         loading={loading}
         onRecipeSaved={toggleSavedRecipe}
         onRecipeDelete={deleteRecipe}
+        onRecipeComment={createRecipeComment}
+        onDeleteComment={deleteRecipeComment}
         setRecipeType={setRecipeType}
         setSearchTerm={setSearchTerm}
       />

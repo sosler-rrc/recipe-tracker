@@ -13,12 +13,25 @@ interface RecipeListProps {
 
   onRecipeSaved: (recipe: Recipe) => void;
   onRecipeDelete: (recipeId: string) => void;
+  onRecipeComment: (recipeId: string, text: string) => void;
+  onDeleteComment: (recipeId: string, commentId: string) => void;
 
   setSearchTerm: (val: string) => void;
   setRecipeType: (val: string) => void;
 }
 
-export function RecipeList({ recipes, recipeTypes, savedRecipeIds, loading, onRecipeSaved, onRecipeDelete, setSearchTerm, setRecipeType }: RecipeListProps) {
+export function RecipeList({
+  recipes,
+  recipeTypes,
+  savedRecipeIds,
+  loading,
+  onRecipeSaved,
+  onRecipeDelete,
+  onRecipeComment,
+  onDeleteComment,
+  setSearchTerm,
+  setRecipeType,
+}: RecipeListProps) {
   const NoRecipesFound = () => {
     return (
       <div className="flex flex-col text-xl gap-4 mt-8">
@@ -74,6 +87,8 @@ export function RecipeList({ recipes, recipeTypes, savedRecipeIds, loading, onRe
               savedRecipeIds={savedRecipeIds}
               onRecipeSaved={onRecipeSaved}
               onRecipeDelete={onRecipeDelete}
+              onRecipeComment={onRecipeComment}
+              onDeleteComment={onDeleteComment}
             />
           ))}
         </>

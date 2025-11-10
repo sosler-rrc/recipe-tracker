@@ -24,3 +24,11 @@ export async function deleteRecipe(recipeId: string, sessionToken: string) {
 export async function toggleSavedRecipe(recipeId: string, sessionToken: string) {
   return await recipeRepo.toggleUserSavedRecipe(recipeId, sessionToken);
 }
+
+export async function createRecipeComment(recipeId: string, sessionToken: string, text: string) {
+  return await recipeRepo.createRecipeComment(recipeId, sessionToken, text);
+}
+
+export async function deleteRecipeComment(commentId: string, sessionToken: string) {
+  return await recipeRepo.deleteRecipeComment(commentId, sessionToken);
+}

@@ -1,3 +1,4 @@
+import type { RecipeComment } from "./RecipeComment";
 import type { User } from "./User";
 
 export interface Recipe {
@@ -17,4 +18,6 @@ export interface Recipe {
   createdAt: Date;
   user: User;
   userId: string;
+
+  comments: RecipeComment[];
 }

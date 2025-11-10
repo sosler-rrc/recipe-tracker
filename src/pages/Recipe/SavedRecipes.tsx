@@ -6,7 +6,7 @@ import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router";
 
 export function SavedRecipes() {
-  const { recipes, userSavedRecipeIds, loading, toggleSavedRecipe, deleteRecipe } = useRecipes([]);
+  const { recipes, userSavedRecipeIds, loading, toggleSavedRecipe, deleteRecipe, createRecipeComment, deleteRecipeComment } = useRecipes([]);
   const { recipeTypes } = useRecipeTypes([]);
   const { filteredRecipes, setRecipeType, setSearchTerm } = useFilteredRecipes(
     recipes,
@@ -29,6 +29,8 @@ export function SavedRecipes() {
         loading={loading}
         onRecipeDelete={deleteRecipe}
         onRecipeSaved={toggleSavedRecipe}
+        onRecipeComment={createRecipeComment}
+        onDeleteComment={deleteRecipeComment}
         setRecipeType={setRecipeType}
         setSearchTerm={setSearchTerm}
       />

@@ -5,6 +5,8 @@ import { Button } from "../../ui/Button";
 import { Link, useNavigate } from "react-router";
 import type { RecipeType } from "../../../types/RecipeType";
 import { useUser } from "@clerk/clerk-react";
+import { formatDate } from "../../../utils/formateDate";
+import { RecipeComments } from "../RecipeComments/RecipeComments";
 
 interface RecipeItemProps {
   recipe: Recipe;
@@ -14,19 +16,23 @@ interface RecipeItemProps {
 
   onRecipeSaved: (recipe: Recipe) => void;
   onRecipeDelete: (recipeId: string) => void;
+  onRecipeComment: (recipeId: string, text: string) => void;
+  onDeleteComment: (recipeId: string, commentId: string) => void;
 }
 
-export function RecipeItem({ recipe, recipeTypes, savedRecipeIds, standalone = false, onRecipeSaved, onRecipeDelete }: RecipeItemProps) {
+export function RecipeItem({
+  recipe,
+  recipeTypes,
+  savedRecipeIds,
+  standalone = false,
+  onRecipeSaved,
+  onRecipeDelete,
+  onRecipeComment,
+  onDeleteComment,
+}: RecipeItemProps) {
   let navigate = useNavigate();
   const { user, isSignedIn } = useUser();
 
-  function formatDate(dateString: string): string {
-    const date = new Date(dateString);
-    return date.toLocaleString("en-US", {
-      dateStyle: "medium",
-      timeStyle: "medium",
-    });
-  }
   function getRecipeTitle() {
     const text = `${recipe.name} - ${recipeTypes.find((x) => x.id == recipe.recipeTypeId)?.name ?? ""}`;
     if (!standalone) {
@@ -43,7 +49,7 @@ export function RecipeItem({ recipe, recipeTypes, savedRecipeIds, standalone = f
 
   return (
     <section className="recipe-item my-4 border p-4 rounded bg-stone-100">
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-2">
         <div className="flex justify-items-center mt-2 text-center justify-between">
           <div className="text-2xl">{getRecipeTitle()}</div>
           <div className="flex gap-2">
@@ -65,7 +71,7 @@ export function RecipeItem({ recipe, recipeTypes, savedRecipeIds, standalone = f
             )}
           </div>
         </div>
-        <span className="text-sm">{formatDate(recipe.updatedAt.toString())}</span>
+        <span className="text-sm">{formatDate(recipe.updatedAt.toString(), "medium")}</span>
         <span className="text-sm mb-2">User: {recipe.user.username}</span>
         <span>Preptime: {recipe.prepTime} mins</span>
         <span>Cooktime: {recipe.cookTime} mins</span>
@@ -88,6 +94,16 @@ export function RecipeItem({ recipe, recipeTypes, savedRecipeIds, standalone = f
             defaultExpand={standalone}
           />
         </div>
+        {standalone ? (
+          <RecipeComments
+            recipeId={recipe.id}
+            onRecipeComment={onRecipeComment}
+            onDeleteComment={(comment) => onDeleteComment(recipe.id, comment)}
+            comments={recipe.comments}
+          />
+        ) : (
+          <></>
+        )}
       </div>
     </section>
   );
