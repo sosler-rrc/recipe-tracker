@@ -30,12 +30,13 @@ export function RecipeComments({ recipeId, comments, onRecipeComment, onDeleteCo
   };
 
   return (
-    <div className="flex flex-col rounded border p-2 bg-stone-200">
+    <div className="flex flex-col rounded border p-4 mt-2 bg-stone-200">
+      <h1 className="text-xl mb-2">Comments</h1>
       {comments.length > 0 ? (
-        <div className="">
+        <div>
           {comments.map((x) => (
             <div
-              className="mb-2"
+              className="mb-2 px-2"
               key={x.id}>
               <div className="flex">
                 <span>{x.username} - </span>
