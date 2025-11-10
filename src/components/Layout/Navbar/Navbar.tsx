@@ -14,11 +14,11 @@ export function Navbar() {
           </Link>
         </div>
         <div className="links flex flex-row gap-4 justify-around items-center">
+          <Link to="/recipes">
+            <Button>All Recipes</Button>
+          </Link>
           {isSignedIn ? (
             <>
-              <Link to="/recipes">
-                <Button>All Recipes</Button>
-              </Link>
               <Link to="/recipes/saved-recipes">
                 <Button>Saved Recipes</Button>
               </Link>
@@ -33,7 +33,9 @@ export function Navbar() {
             <></>
           )}
           <SignedOut>
-            <SignInButton />
+            <SignInButton>
+              <Button>Sign In</Button>
+            </SignInButton>
           </SignedOut>
           <SignedIn>
             <UserButton />
