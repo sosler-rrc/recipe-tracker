@@ -28,6 +28,7 @@ export function ViewRecipe() {
       savedRecipeIds={userSavedRecipeIds}
       onRecipeSaved={toggleSavedRecipe}
       onRecipeDelete={deleteRecipe}
+      standalone={true}
     />
   );
 }
