@@ -3,7 +3,7 @@ import { Button } from "../../ui/Button";
 import { SignedIn, SignedOut, SignInButton, useAuth, UserButton } from "@clerk/clerk-react";
 
 export function Navbar() {
-  const { getToken, isSignedIn } = useAuth();
+  const { isSignedIn } = useAuth();
 
   return (
     <header>

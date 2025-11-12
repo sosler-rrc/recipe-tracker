@@ -19,7 +19,7 @@ const DEFAULT_RECIPE = {
 } as CreateUpdateRecipe;
 
 export function useRecipeForm() {
-  const { getToken, isSignedIn } = useAuth();
+  const { getToken } = useAuth();
   const [recipeData, setRecipeData] = useState<CreateUpdateRecipe>(DEFAULT_RECIPE);
   const [errors, setErrors] = useState<Map<string, string>>(new Map());
   const [steps, setSteps] = useState<string[]>([]);
