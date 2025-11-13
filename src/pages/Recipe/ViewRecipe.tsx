@@ -6,7 +6,7 @@ import { useRecipeTypes } from "../../hooks/useRecipeTypes";
 
 export function ViewRecipe() {
   let navigate = useNavigate();
-  const { recipes, toggleSavedRecipe, deleteRecipe } = useRecipes([]);
+  const { recipes, userSavedRecipeIds, toggleSavedRecipe, deleteRecipe, createRecipeComment, deleteRecipeComment } = useRecipes([]);
   const { recipeTypes } = useRecipeTypes([]);
   const { id } = useParams();
 
@@ -25,8 +25,12 @@ export function ViewRecipe() {
     <RecipeItem
       recipe={selectedRecipe}
       recipeTypes={recipeTypes}
+      savedRecipeIds={userSavedRecipeIds}
+      onRecipeComment={createRecipeComment}
       onRecipeSaved={toggleSavedRecipe}
       onRecipeDelete={deleteRecipe}
+      onDeleteComment={deleteRecipeComment}
+      standalone={true}
     />
   );
 }

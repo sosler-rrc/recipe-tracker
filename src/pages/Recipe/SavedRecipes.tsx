@@ -5,12 +5,16 @@ import { useRecipeTypes } from "../../hooks/useRecipeTypes";
 import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router";
 
-export function MyRecipes() {
+export function SavedRecipes() {
   const { recipes, userSavedRecipeIds, loading, toggleSavedRecipe, deleteRecipe, createRecipeComment, deleteRecipeComment } = useRecipes([]);
-  let navigate = useNavigate();
-  const { user } = useUser();
   const { recipeTypes } = useRecipeTypes([]);
-  const { filteredRecipes, setRecipeType, setSearchTerm } = useFilteredRecipes(recipes, [], (recipe) => recipe.userId == user?.id);
+  const { filteredRecipes, setRecipeType, setSearchTerm } = useFilteredRecipes(
+    recipes,
+    [],
+    (recipe) => userSavedRecipeIds.findIndex((x) => x == recipe.id) != -1
+  );
+  const { user } = useUser();
+  let navigate = useNavigate();
 
   if (!user) {
     navigate("/not-found");
