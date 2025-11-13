@@ -6,10 +6,11 @@ interface RecipeItemCardProps {
   title: string;
   data: string[];
   ordered?: boolean;
+  defaultExpand?: boolean;
 }
 
-export function RecipeItemCard({ data, title, ordered = false }: RecipeItemCardProps) {
-  const [expanded, setExpanded] = useState(false);
+export function RecipeItemCard({ data, title, ordered = false, defaultExpand = false }: RecipeItemCardProps) {
+  const [expanded, setExpanded] = useState(defaultExpand);
   return (
     <div className="border rounded flex-grow p-4 min-w-60 bg-stone-200">
       <div className="flex justify-between item-center">

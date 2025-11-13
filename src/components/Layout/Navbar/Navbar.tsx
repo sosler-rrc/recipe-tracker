@@ -1,12 +1,10 @@
 import { Link } from "react-router";
 import { Button } from "../../ui/Button";
+import { SignedIn, SignedOut, SignInButton, useAuth, UserButton } from "@clerk/clerk-react";
 
-interface NavbarProps {
-  isLoggedIn: boolean;
-  onLogin: () => void;
-}
+export function Navbar() {
+  const { isSignedIn } = useAuth();
 
-export function Navbar({ onLogin, isLoggedIn }: NavbarProps) {
   return (
     <header>
       <nav className="flex justify-between">
@@ -17,23 +15,31 @@ export function Navbar({ onLogin, isLoggedIn }: NavbarProps) {
         </div>
         <div className="links flex flex-row gap-4 justify-around items-center">
           <Link to="/recipes">
-            <Button>Recipes</Button>
+            <Button>All Recipes</Button>
           </Link>
-          {isLoggedIn ? (
-            <Link to="/recipes/my-recipes">
-              <Button>Saved Recipes</Button>
-            </Link>
+          {isSignedIn ? (
+            <>
+              <Link to="/recipes/saved-recipes">
+                <Button>Saved Recipes</Button>
+              </Link>
+              <Link to="/recipes/my-recipes">
+                <Button>My Recipes</Button>
+              </Link>
+              <Link to="/recipes/create">
+                <Button>Create Recipe</Button>
+              </Link>
+            </>
           ) : (
             <></>
           )}
-          {isLoggedIn ? (
-            <Link to="/recipes/create">
-              <Button>Create Recipe</Button>
-            </Link>
-          ) : (
-            <></>
-          )}
-          <Button onClick={() => onLogin()}>{isLoggedIn ? "Logout" : "Login / Signup"}</Button>
+          <SignedOut>
+            <SignInButton>
+              <Button>Sign In</Button>
+            </SignInButton>
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
         </div>
       </nav>
     </header>

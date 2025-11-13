@@ -4,7 +4,6 @@ import type { RecipeType } from "../types/RecipeType";
 
 export function useRecipeTypes(dependencies: unknown[]) {
   const [recipeTypes, setRecipeTypes] = useState<RecipeType[]>([]);
-  const [error, setError] = useState<string | null>();
 
   const fetchRecipeTypes = async () => {
     const types = await RecipeTypeService.fetchRecipeTypes();
@@ -17,6 +16,5 @@ export function useRecipeTypes(dependencies: unknown[]) {
 
   return {
     recipeTypes,
-    error,
   };
 }

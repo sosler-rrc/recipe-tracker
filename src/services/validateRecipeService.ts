@@ -1,6 +1,6 @@
-import type { Recipe } from "../types/Recipe";
+import type { CreateUpdateRecipe } from "../types/CreateUpdateRecipe";
 
-export async function validateRecipe(recipe: Recipe, ingredients: string[], steps: string[]) {
+export async function validateRecipe(recipe: CreateUpdateRecipe, ingredients: string[], steps: string[]) {
   const validationErrors = new Map<string, string>();
 
   if (!recipe.name?.trim()) validationErrors.set("name", "Name must be defined");

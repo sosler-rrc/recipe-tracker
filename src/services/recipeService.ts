@@ -1,24 +1,34 @@
 import * as recipeRepo from "../apis/recipeRepo";
-import type { Recipe } from "../types/Recipe";
+import type { CreateUpdateRecipe } from "../types/CreateUpdateRecipe";
 
 export async function fetchRecipes() {
-  const recipes = await recipeRepo.getRecipes();
-  return recipes;
+  return await recipeRepo.getRecipes();
 }
 
-export async function createNewRecipe(recipe: Recipe) {
-  return await recipeRepo.createRecipe(recipe);
+export async function fetchUserSavedRecipes(sessionToken: string) {
+  return await recipeRepo.getUserSavedRecipes(sessionToken);
 }
 
-export async function updateRecipe(recipe: Recipe) {
-  return await recipeRepo.updateRecipe(recipe);
+export async function createNewRecipe(recipe: CreateUpdateRecipe, sessionToken: string) {
+  return await recipeRepo.createRecipe(recipe, sessionToken);
 }
 
-export async function deleteRecipe(recipeId: string) {
-  return await recipeRepo.deleteRecipe(recipeId);
+export async function updateRecipe(recipe: CreateUpdateRecipe, sessionToken: string) {
+  return await recipeRepo.updateRecipe(recipe, sessionToken);
 }
 
-export async function toggleSavedRecipe(recipe: Recipe) {
-  recipe.saved = !recipe.saved;
-  return await recipeRepo.updateRecipe(recipe);
+export async function deleteRecipe(recipeId: string, sessionToken: string) {
+  return await recipeRepo.deleteRecipe(recipeId, sessionToken);
+}
+
+export async function toggleSavedRecipe(recipeId: string, sessionToken: string) {
+  return await recipeRepo.toggleUserSavedRecipe(recipeId, sessionToken);
+}
+
+export async function createRecipeComment(recipeId: string, sessionToken: string, text: string) {
+  return await recipeRepo.createRecipeComment(recipeId, sessionToken, text);
+}
+
+export async function deleteRecipeComment(commentId: string, sessionToken: string) {
+  return await recipeRepo.deleteRecipeComment(commentId, sessionToken);
 }
