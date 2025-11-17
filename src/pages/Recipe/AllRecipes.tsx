@@ -9,7 +9,7 @@ export function Recipes() {
   const { filteredRecipes, setSearchTerm, setRecipeType } = useFilteredRecipes(recipes, recipeTypes, null);
 
   return (
-    <div className="p-16">
+    <div className="lg:px-16 pt-8">
       <RecipeList
         recipes={filteredRecipes}
         recipeTypes={recipeTypes}
