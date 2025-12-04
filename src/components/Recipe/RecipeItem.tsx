@@ -1,5 +1,5 @@
 import { useUser } from "@clerk/clerk-react";
-import { Edit, Star, Trash } from "lucide-react";
+import { Edit, Printer, Star, Trash } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import type { Recipe } from "@/types/Recipe";
 import type { RecipeType } from "@/types/RecipeType";
@@ -7,6 +7,8 @@ import { formatDate } from "@/utils/formateDate";
 import { Button } from "@/components/ui";
 import { RecipeItemCard } from "./RecipeItemCard";
 import { RecipeComments } from "./RecipeComments";
+import { useRef } from "react";
+import { useReactToPrint } from "react-to-print";
 
 interface RecipeItemProps {
   recipe: Recipe;
@@ -47,8 +49,15 @@ export function RecipeItem({
     return text;
   }
 
+  const printRef = useRef<HTMLDivElement>(null);
+  const handlePrint = useReactToPrint({
+    contentRef: printRef,
+  });
+
   return (
-    <section className="recipe-item my-4 border p-4 rounded bg-stone-100">
+    <section
+      ref={printRef}
+      className="recipe-item my-4 border p-4 rounded bg-stone-100">
       <div className="flex flex-col gap-2">
         <div className="flex justify-items-center mt-2 text-center justify-between">
           <div className="text-2xl">{getRecipeTitle()}</div>
@@ -69,17 +78,20 @@ export function RecipeItem({
             ) : (
               <></>
             )}
+            <Button onClick={handlePrint}>
+              <Printer />
+            </Button>
           </div>
         </div>
         <span className="text-sm">{formatDate(recipe.updatedAt.toString(), "medium")}</span>
         <span className="text-sm mb-2">User: {recipe.user.username}</span>
-        <span>Preptime: {recipe.prepTime} mins</span>
-        <span>Cooktime: {recipe.cookTime} mins</span>
-        {recipe.ovenTemp ? <span>Oven Preheat: {recipe.ovenTemp}&deg;F</span> : <></>}
-        <span>Servings: {recipe.servings}</span>
-        <div className="flex mb-4 justify-between">
-          <div className="my-4">{recipe.description}</div>
+        <div className="flex flex-col print:flex-row print:flex print:gap-2">
+          <span>Preptime: {recipe.prepTime} mins</span>
+          <span>Cooktime: {recipe.cookTime} mins</span>
+          {recipe.ovenTemp ? <span>Oven Preheat: {recipe.ovenTemp}&deg;F</span> : <></>}
+          <span>Servings: {recipe.servings}</span>
         </div>
+        <div className="my-4 print:my-1">{recipe.description}</div>
 
         <div className="flex gap-4 flex-col">
           <RecipeItemCard
