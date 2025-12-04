@@ -56,16 +56,18 @@ export function RecipeList({
         !recipesError &&
         recipes.length > 0 &&
         recipes.map((x) => (
-          <RecipeItem
-            key={x.id}
-            recipe={x}
-            recipeTypes={recipeTypes}
-            savedRecipeIds={savedRecipeIds}
-            onRecipeSaved={onRecipeSaved}
-            onRecipeDelete={onRecipeDelete}
-            onRecipeComment={onRecipeComment}
-            onDeleteComment={onDeleteComment}
-          />
+          <div className="mt-2">
+            <RecipeItem
+              key={x.id}
+              recipe={x}
+              recipeTypes={recipeTypes}
+              savedRecipeIds={savedRecipeIds}
+              onRecipeSaved={onRecipeSaved}
+              onRecipeDelete={onRecipeDelete}
+              onRecipeComment={onRecipeComment}
+              onDeleteComment={onDeleteComment}
+            />
+          </div>
         ))}
     </section>
   );
