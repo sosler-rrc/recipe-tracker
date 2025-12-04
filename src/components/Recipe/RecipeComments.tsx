@@ -29,7 +29,7 @@ export function RecipeComments({ recipeId, comments, onRecipeComment, onDeleteCo
   };
 
   return (
-    <div className="flex flex-col rounded border p-4 mt-2 bg-stone-200">
+    <div className="flex flex-col rounded border p-4 mt-2 bg-stone-200 print:hidden">
       <h1 className="text-xl mb-2">Comments</h1>
       {comments.length > 0 ? (
         <div>
