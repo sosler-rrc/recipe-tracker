@@ -1,6 +1,6 @@
 import { Link } from "react-router";
-import { Button } from "../../ui/Button";
 import { SignedIn, SignedOut, SignInButton, useAuth, UserButton } from "@clerk/clerk-react";
+import { Button } from "@/components/ui/Button";
 
 export function Navbar() {
   const { isSignedIn } = useAuth();

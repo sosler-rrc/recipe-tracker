@@ -1,5 +1,5 @@
+import { Button } from "@/components/ui";
 import { Trash } from "lucide-react";
-import { Button } from "../../../ui/Button";
 
 interface RemovableFormListProps {
   data: string[];

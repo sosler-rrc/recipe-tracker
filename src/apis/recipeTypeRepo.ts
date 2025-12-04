@@ -1,5 +1,5 @@
-import type { BaseResponse } from "../types/BaseResponse";
-import type { RecipeType } from "../types/RecipeType";
+import type { BaseResponse } from "@/types/BaseResponse";
+import type { RecipeType } from "@/types/RecipeType";
 
 const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/v1`;
 

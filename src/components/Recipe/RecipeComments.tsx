@@ -1,10 +1,9 @@
 import { useUser } from "@clerk/clerk-react";
-import type { RecipeComment } from "../../../types/RecipeComment";
-import { formatDate } from "../../../utils/formateDate";
-import { Button } from "../../ui/Button";
-import { Input } from "../../ui/Input";
 import { useState } from "react";
 import { Trash } from "lucide-react";
+import type { RecipeComment } from "@/types/RecipeComment";
+import { formatDate } from "@/utils/formateDate";
+import { Button, Input } from "@/components/ui";
 
 export interface RecipeCommentsProps {
   recipeId: string;

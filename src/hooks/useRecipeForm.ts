@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import * as RecipeService from "../services/recipeService";
-import * as ValidateRecipeService from "../services/validateRecipeService";
+import * as RecipeService from "@/services/recipeService";
+import * as ValidateRecipeService from "@/services/validateRecipeService";
 import { toast } from "react-toastify";
 import { useAuth } from "@clerk/clerk-react";
-import type { CreateUpdateRecipe } from "../types/CreateUpdateRecipe";
+import type { CreateUpdateRecipe } from "@/types/CreateUpdateRecipe";
 
 const DEFAULT_RECIPE = {
   name: "",

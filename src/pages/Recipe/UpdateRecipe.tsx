@@ -1,5 +1,5 @@
+import { RecipeForm } from "@/components/Recipe/RecipeForm/RecipeForm";
 import { useParams } from "react-router";
-import { RecipeForm } from "../../components/Recipe/RecipeForm/RecipeForm/RecipeForm";
 
 export function UpdateRecipe() {
   const { id } = useParams();

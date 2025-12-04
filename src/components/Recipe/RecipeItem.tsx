@@ -1,12 +1,12 @@
-import { Edit, Star, Trash } from "lucide-react";
-import type { Recipe } from "../../../types/Recipe";
-import { RecipeItemCard } from "../RecipeItemCard/RecipeItemCard";
-import { Button } from "../../ui/Button";
-import { Link, useNavigate } from "react-router";
-import type { RecipeType } from "../../../types/RecipeType";
 import { useUser } from "@clerk/clerk-react";
-import { formatDate } from "../../../utils/formateDate";
-import { RecipeComments } from "../RecipeComments/RecipeComments";
+import { Edit, Star, Trash } from "lucide-react";
+import { Link, useNavigate } from "react-router";
+import type { Recipe } from "@/types/Recipe";
+import type { RecipeType } from "@/types/RecipeType";
+import { formatDate } from "@/utils/formateDate";
+import { Button } from "@/components/ui";
+import { RecipeItemCard } from "./RecipeItemCard";
+import { RecipeComments } from "./RecipeComments";
 
 interface RecipeItemProps {
   recipe: Recipe;

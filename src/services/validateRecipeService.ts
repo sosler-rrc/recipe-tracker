@@ -1,4 +1,4 @@
-import type { CreateUpdateRecipe } from "../types/CreateUpdateRecipe";
+import type { CreateUpdateRecipe } from "@/types/CreateUpdateRecipe";
 
 export async function validateRecipe(recipe: CreateUpdateRecipe, ingredients: string[], steps: string[]) {
   const validationErrors = new Map<string, string>();

@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Button } from "../../../ui/Button";
-import { RemovableFormList } from "../RemovableFormList/RemovableFormList";
-import { Textarea } from "../../../ui/Textarea";
+import { RemovableFormList } from "./RemovableFormList";
+import { Button, Textarea } from "@/components/ui";
 
 interface RecipeStepsFormProps {
   steps: string[];

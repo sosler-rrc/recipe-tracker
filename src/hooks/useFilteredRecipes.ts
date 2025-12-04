@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
-import type { Recipe } from "../types/Recipe";
-import type { RecipeType } from "../types/RecipeType";
+import type { Recipe } from "@/types/Recipe";
+import type { RecipeType } from "@/types/RecipeType";
 
 interface FilterOptions {
   searchTerm: string;
