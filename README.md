@@ -1,27 +1,32 @@
 ## Recipe Tracker Application
 
-#### Author: Shamus Osler
+### Author: Shamus Osler
 
-Recipe Tracker is an application that allows users to save recipes and share them with their friends.
+Recipe Tracker is an application that allows users to create recipes, save them and share them with their other users.
+
+### Steps to run application
+
+1. Create a new clerk account and project, copy the clerk publishable key
+
+2. Clone the [recipe-tracker-db](https://github.com/sosler-rrc/recipe-tracker-db) project from Github and follow the setup steps in the README
+
+3. Create an .env file at the base of the repo and add the following items:
+   `VITE_API_BASE_URL` - This is the URL of the API application
+   `VITE_CLERK_PUBLISHABLE_KEY` - This is your clerk publishable key
+
+   ```sh
+     VITE_API_BASE_URL=http://localhost:3000
+     VITE_CLERK_PUBLISHABLE_KEY=<clerk_public_key>
+   ```
+
+4. Install dependencies
+   `npm i`
+
+5. Run the application
+   `npm run dev`
 
 #### User Stories
 
-- As a user I want to upload recipes and pictures
-- As a user I want to add friends and view their favourite recipes
-- As a user I want save my favourite recipes and share them with my friends
-
-### Steps to run Application
-
-Create an .env file at the base of the repo and add the following configuration items
-
-VITE_API_BASE_URL - This is the URL of the API application
-
-```sh
-  VITE_API_BASE_URL=http://localhost:3000
-```
-
-1. Install dependencies
-   `npm i`
-
-2. Run the application
-   `npm run dev`
+- As a user I want to create recipes
+- As a user I want to view other users recipes
+- As a user I want save my favourite recipes from other uers
