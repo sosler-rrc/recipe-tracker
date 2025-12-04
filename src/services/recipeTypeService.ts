@@ -1,5 +1,5 @@
-import * as recipeTypeRepo from "../apis/recipeTypeRepo";
-import type { RecipeType } from "../types/RecipeType";
+import * as recipeTypeRepo from "@/apis/recipeTypeRepo";
+import type { RecipeType } from "@/types/RecipeType";
 
 export async function fetchRecipeTypes() {
   const recipeTypes = await recipeTypeRepo.getRecipeTypes();

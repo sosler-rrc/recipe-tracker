@@ -1,21 +1,19 @@
 import { useNavigate, useParams } from "react-router";
-import { RecipeItem } from "../../components/Recipe/RecipeItem/RecipeItem";
-import { useRecipes } from "../../hooks/useRecipes";
 import { useEffect } from "react";
-import { useRecipeTypes } from "../../hooks/useRecipeTypes";
+import { RecipeItem } from "@/components/Recipe/RecipeItem";
+import { useRecipeData } from "@/hooks/useRecipeData";
 
 export function ViewRecipe() {
-  let navigate = useNavigate();
-  const { recipes, userSavedRecipeIds, toggleSavedRecipe, deleteRecipe, createRecipeComment, deleteRecipeComment } = useRecipes([]);
-  const { recipeTypes } = useRecipeTypes([]);
-  const { id } = useParams();
+  const recipeData = useRecipeData();
 
-  const selectedRecipe = recipes.find((x) => x.id == id);
+  const { id } = useParams();
+  const selectedRecipe = recipeData.recipes.find((x) => x.id == id);
+  let navigate = useNavigate();
   useEffect(() => {
-    if (!selectedRecipe && recipes.length > 0) {
+    if (!selectedRecipe && recipeData.recipes.length > 0) {
       navigate("/not-found"); //nagivate to 404 when no recipe is found
     }
-  }, [selectedRecipe, recipes.length, navigate]);
+  }, [selectedRecipe, recipeData.recipes.length, navigate]);
 
   if (!selectedRecipe) {
     return null;
@@ -24,12 +22,12 @@ export function ViewRecipe() {
   return (
     <RecipeItem
       recipe={selectedRecipe}
-      recipeTypes={recipeTypes}
-      savedRecipeIds={userSavedRecipeIds}
-      onRecipeComment={createRecipeComment}
-      onRecipeSaved={toggleSavedRecipe}
-      onRecipeDelete={deleteRecipe}
-      onDeleteComment={deleteRecipeComment}
+      recipeTypes={recipeData.recipeTypes}
+      savedRecipeIds={recipeData.userSavedRecipeIds}
+      onRecipeComment={recipeData.createRecipeComment}
+      onRecipeSaved={recipeData.toggleSavedRecipe}
+      onRecipeDelete={recipeData.deleteRecipe}
+      onDeleteComment={recipeData.deleteRecipeComment}
       standalone={true}
     />
   );

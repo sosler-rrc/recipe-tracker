@@ -1,15 +1,12 @@
 import { useEffect } from "react";
-import { Button } from "../../../ui/Button";
-import { Input } from "../../../ui/Input";
-import { Select } from "../../../ui/Select";
-import { Textarea } from "../../../ui/Textarea";
-import { IngredientsForm } from "../IngredientsForm/IngredientsForm";
-import { RecipeStepsForm } from "../StepsForm/StepsForm";
-import { useRecipes } from "../../../../hooks/useRecipes";
 import { useNavigate } from "react-router";
-import { useRecipeForm } from "../../../../hooks/useRecipeForm";
-import { useRecipeTypes } from "../../../../hooks/useRecipeTypes";
 import { useUser } from "@clerk/clerk-react";
+import { IngredientsForm } from "./IngredientsForm";
+import { RecipeStepsForm } from "./StepsForm";
+import { useRecipes } from "@/hooks/useRecipes";
+import { useRecipeForm } from "@/hooks/useRecipeForm";
+import { useRecipeTypes } from "@/hooks/useRecipeTypes";
+import { Button, Input, Select, Textarea } from "@/components/ui";
 
 interface RecipeFormProps {
   formMode: "edit" | "create";

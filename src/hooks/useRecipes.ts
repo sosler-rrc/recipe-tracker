@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import * as RecipeService from "../services/recipeService";
-import type { Recipe } from "../types/Recipe";
+import * as RecipeService from "@/services/recipeService";
+import type { Recipe } from "@/types/Recipe";
 import { toast } from "react-toastify";
 import { useAuth } from "@clerk/clerk-react";
 

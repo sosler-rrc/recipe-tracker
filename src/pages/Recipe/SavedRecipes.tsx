@@ -1,17 +1,15 @@
-import { useRecipes } from "../../hooks/useRecipes";
-import { RecipeList } from "../../components/Recipe/RecipeList/RecipeList";
-import { useFilteredRecipes } from "../../hooks/useFilteredRecipes";
-import { useRecipeTypes } from "../../hooks/useRecipeTypes";
+import { RecipeList } from "@/components/Recipe/RecipeList";
+import { useFilteredRecipes } from "@/hooks/useFilteredRecipes";
+import { useRecipeData } from "@/hooks/useRecipeData";
 import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router";
 
 export function SavedRecipes() {
-  const { recipes, userSavedRecipeIds, loading, toggleSavedRecipe, deleteRecipe, createRecipeComment, deleteRecipeComment } = useRecipes([]);
-  const { recipeTypes } = useRecipeTypes([]);
+  const recipeData = useRecipeData();
   const { filteredRecipes, setRecipeType, setSearchTerm } = useFilteredRecipes(
-    recipes,
+    recipeData.recipes,
     [],
-    (recipe) => userSavedRecipeIds.findIndex((x) => x == recipe.id) != -1
+    (recipe) => recipeData.userSavedRecipeIds.findIndex((x) => x == recipe.id) != -1
   );
   const { user } = useUser();
   let navigate = useNavigate();
@@ -24,13 +22,13 @@ export function SavedRecipes() {
     <div className="p-16">
       <RecipeList
         recipes={filteredRecipes}
-        recipeTypes={recipeTypes}
-        savedRecipeIds={userSavedRecipeIds}
-        loading={loading}
-        onRecipeDelete={deleteRecipe}
-        onRecipeSaved={toggleSavedRecipe}
-        onRecipeComment={createRecipeComment}
-        onDeleteComment={deleteRecipeComment}
+        recipeTypes={recipeData.recipeTypes}
+        savedRecipeIds={recipeData.userSavedRecipeIds}
+        loading={recipeData.loading}
+        onRecipeDelete={recipeData.deleteRecipe}
+        onRecipeSaved={recipeData.toggleSavedRecipe}
+        onRecipeComment={recipeData.createRecipeComment}
+        onDeleteComment={recipeData.deleteRecipeComment}
         setRecipeType={setRecipeType}
         setSearchTerm={setSearchTerm}
       />

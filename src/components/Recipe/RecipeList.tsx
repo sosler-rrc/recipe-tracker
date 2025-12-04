@@ -1,10 +1,9 @@
 import { Link } from "react-router";
-import type { Recipe } from "../../../types/Recipe";
-import type { RecipeType } from "../../../types/RecipeType";
-import { Input } from "../../ui/Input";
-import { Select } from "../../ui/Select";
-import { RecipeItem } from "../RecipeItem/RecipeItem";
-import { LoadingSpinner } from "../../ui/LoadingSpinner";
+import type { Recipe } from "@/types/Recipe";
+import type { RecipeType } from "@/types/RecipeType";
+import { RecipeItem } from "./RecipeItem";
+import { Select, Input, LoadingSpinner } from "@/components/ui";
+
 interface RecipeListProps {
   recipes: Recipe[];
   recipeTypes: RecipeType[];

@@ -1,6 +1,6 @@
-import type { BaseResponse } from "../types/BaseResponse";
-import type { CreateUpdateRecipe } from "../types/CreateUpdateRecipe";
-import type { Recipe } from "../types/Recipe";
+import type { BaseResponse } from "@/types/BaseResponse";
+import type { CreateUpdateRecipe } from "@/types/CreateUpdateRecipe";
+import type { Recipe } from "@/types/Recipe";
 
 //Setup the base url with the route prefix using the VITE_API_BASE_URL variable defined in the .env file
 const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/v1`;

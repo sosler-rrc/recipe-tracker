@@ -1,24 +1,22 @@
-import { useRecipes } from "../../hooks/useRecipes";
-import { RecipeList } from "../../components/Recipe/RecipeList/RecipeList";
-import { useRecipeTypes } from "../../hooks/useRecipeTypes";
-import { useFilteredRecipes } from "../../hooks/useFilteredRecipes";
+import { RecipeList } from "@/components/Recipe/RecipeList";
+import { useFilteredRecipes } from "@/hooks/useFilteredRecipes";
+import { useRecipeData } from "@/hooks/useRecipeData";
 
 export function Recipes() {
-  const { recipes, userSavedRecipeIds, loading, toggleSavedRecipe, deleteRecipe, createRecipeComment, deleteRecipeComment } = useRecipes([]);
-  const { recipeTypes } = useRecipeTypes([]);
-  const { filteredRecipes, setSearchTerm, setRecipeType } = useFilteredRecipes(recipes, recipeTypes, null);
+  const recipeData = useRecipeData();
+  const { filteredRecipes, setSearchTerm, setRecipeType } = useFilteredRecipes(recipeData.recipes, recipeData.recipeTypes, null);
 
   return (
     <div className="lg:px-16 pt-8">
       <RecipeList
         recipes={filteredRecipes}
-        recipeTypes={recipeTypes}
-        savedRecipeIds={userSavedRecipeIds}
-        loading={loading}
-        onRecipeSaved={toggleSavedRecipe}
-        onRecipeDelete={deleteRecipe}
-        onRecipeComment={createRecipeComment}
-        onDeleteComment={deleteRecipeComment}
+        recipeTypes={recipeData.recipeTypes}
+        savedRecipeIds={recipeData.userSavedRecipeIds}
+        loading={recipeData.loading}
+        onRecipeSaved={recipeData.toggleSavedRecipe}
+        onRecipeDelete={recipeData.deleteRecipe}
+        onRecipeComment={recipeData.createRecipeComment}
+        onDeleteComment={recipeData.deleteRecipeComment}
         setRecipeType={setRecipeType}
         setSearchTerm={setSearchTerm}
       />

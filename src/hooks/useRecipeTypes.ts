@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import * as RecipeTypeService from "../services/recipeTypeService";
-import type { RecipeType } from "../types/RecipeType";
+import * as RecipeTypeService from "@/services/recipeTypeService";
+import type { RecipeType } from "@/types/RecipeType";
 
 export function useRecipeTypes(dependencies: unknown[]) {
   const [recipeTypes, setRecipeTypes] = useState<RecipeType[]>([]);

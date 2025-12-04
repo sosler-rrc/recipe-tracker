@@ -1,17 +1,15 @@
-import { useRecipes } from "../../hooks/useRecipes";
-import { RecipeList } from "../../components/Recipe/RecipeList/RecipeList";
-import { useFilteredRecipes } from "../../hooks/useFilteredRecipes";
-import { useRecipeTypes } from "../../hooks/useRecipeTypes";
+import { RecipeList } from "@/components/Recipe/RecipeList";
+import { useFilteredRecipes } from "@/hooks/useFilteredRecipes";
+import { useRecipeData } from "@/hooks/useRecipeData";
 import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router";
 
 export function MyRecipes() {
-  const { recipes, userSavedRecipeIds, loading, toggleSavedRecipe, deleteRecipe, createRecipeComment, deleteRecipeComment } = useRecipes([]);
-  let navigate = useNavigate();
+  const recipeData = useRecipeData();
   const { user } = useUser();
-  const { recipeTypes } = useRecipeTypes([]);
-  const { filteredRecipes, setRecipeType, setSearchTerm } = useFilteredRecipes(recipes, [], (recipe) => recipe.userId == user?.id);
+  const { filteredRecipes, setRecipeType, setSearchTerm } = useFilteredRecipes(recipeData.recipes, [], (recipe) => recipe.userId == user?.id);
 
+  let navigate = useNavigate();
   if (!user) {
     navigate("/not-found");
   }
@@ -20,13 +18,13 @@ export function MyRecipes() {
     <div className="p-16">
       <RecipeList
         recipes={filteredRecipes}
-        recipeTypes={recipeTypes}
-        savedRecipeIds={userSavedRecipeIds}
-        loading={loading}
-        onRecipeDelete={deleteRecipe}
-        onRecipeSaved={toggleSavedRecipe}
-        onRecipeComment={createRecipeComment}
-        onDeleteComment={deleteRecipeComment}
+        recipeTypes={recipeData.recipeTypes}
+        savedRecipeIds={recipeData.userSavedRecipeIds}
+        loading={recipeData.loading}
+        onRecipeDelete={recipeData.deleteRecipe}
+        onRecipeSaved={recipeData.toggleSavedRecipe}
+        onRecipeComment={recipeData.createRecipeComment}
+        onDeleteComment={recipeData.deleteRecipeComment}
         setRecipeType={setRecipeType}
         setSearchTerm={setSearchTerm}
       />

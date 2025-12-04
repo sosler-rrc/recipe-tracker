@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Button } from "../../../ui/Button";
-import { Input } from "../../../ui/Input";
-import { RemovableFormList } from "../RemovableFormList/RemovableFormList";
+import { RemovableFormList } from "./RemovableFormList";
+import { Button, Input } from "@/components/ui";
 
 interface IngredientsFormProps {
   ingredients: string[];
