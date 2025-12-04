@@ -12,7 +12,8 @@ export function Recipes() {
         recipes={filteredRecipes}
         recipeTypes={recipeData.recipeTypes}
         savedRecipeIds={recipeData.userSavedRecipeIds}
-        loading={recipeData.loading}
+        loadingRecipes={recipeData.loadingRecipes}
+        recipesError={recipeData.recipesError}
         onRecipeSaved={recipeData.toggleSavedRecipe}
         onRecipeDelete={recipeData.deleteRecipe}
         onRecipeComment={recipeData.createRecipeComment}

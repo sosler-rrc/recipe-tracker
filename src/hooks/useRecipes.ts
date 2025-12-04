@@ -8,11 +8,12 @@ export function useRecipes(dependencies: unknown[]) {
   const { getToken, isSignedIn } = useAuth();
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [userSavedRecipeIds, setUserSavedRecipeIds] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>();
+  const [loadingRecipes, setLoadingRecipes] = useState(false);
+  const [recipesError, setRecipesError] = useState<string | null>(null);
 
   const fetchRecipes = useCallback(async () => {
-    setLoading(true);
+    setLoadingRecipes(true);
+    setRecipesError(null);
     try {
       const recipesData = await RecipeService.fetchRecipes();
       setRecipes(recipesData);
@@ -27,9 +28,9 @@ export function useRecipes(dependencies: unknown[]) {
         setUserSavedRecipeIds([]);
       }
     } catch (errorObject) {
-      setError(`${errorObject}`);
+      setRecipesError("Unable to fetch recipes due to an unexpected error");
     } finally {
-      setLoading(false);
+      setLoadingRecipes(false);
     }
   }, [getToken, isSignedIn]);
 
@@ -57,7 +58,13 @@ export function useRecipes(dependencies: unknown[]) {
           });
         }
       } catch (errorObject) {
-        setError(`${errorObject}`);
+        toast("Unable to delete recipe due to an unexpected error", {
+          position: "bottom-center",
+          theme: "light",
+          hideProgressBar: true,
+          closeButton: false,
+          autoClose: 2500,
+        });
       }
     },
     [getToken]
@@ -85,7 +92,13 @@ export function useRecipes(dependencies: unknown[]) {
           autoClose: 2500,
         });
       } catch (errorObject) {
-        setError(`${errorObject}`);
+        toast("Unable to save recipe due to an unexpected error", {
+          position: "bottom-center",
+          theme: "light",
+          hideProgressBar: true,
+          closeButton: false,
+          autoClose: 2500,
+        });
       }
     },
     [getToken, userSavedRecipeIds]
@@ -109,7 +122,13 @@ export function useRecipes(dependencies: unknown[]) {
           return updated;
         });
       } catch (errorObject) {
-        setError(`${errorObject}`);
+        toast("Unable to create recipe comment due to an unexpected error", {
+          position: "bottom-center",
+          theme: "light",
+          hideProgressBar: true,
+          closeButton: false,
+          autoClose: 2500,
+        });
       }
     },
     [getToken]
@@ -126,8 +145,6 @@ export function useRecipes(dependencies: unknown[]) {
           if (!sessionToken) {
             throw new Error("Unauthorized");
           }
-          console.log(recipeId);
-          console.log(commentId);
           await RecipeService.deleteRecipeComment(commentId, sessionToken);
 
           setRecipes((prev) => {
@@ -151,7 +168,13 @@ export function useRecipes(dependencies: unknown[]) {
           });
         }
       } catch (errorObject) {
-        setError(`${errorObject}`);
+        toast("Unable to delete recipe comment due to an unexpected error", {
+          position: "bottom-center",
+          theme: "light",
+          hideProgressBar: true,
+          closeButton: false,
+          autoClose: 2500,
+        });
       }
     },
     [getToken]
@@ -165,8 +188,8 @@ export function useRecipes(dependencies: unknown[]) {
   return {
     recipes,
     userSavedRecipeIds,
-    loading,
-    error,
+    loadingRecipes,
+    recipesError,
     toggleSavedRecipe,
     deleteRecipe,
     createRecipeComment,
