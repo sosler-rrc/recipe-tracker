@@ -12,7 +12,7 @@ interface RecipeItemCardProps {
 export function RecipeItemCard({ data, title, ordered = false, defaultExpand = false }: RecipeItemCardProps) {
   const [expanded, setExpanded] = useState(defaultExpand);
   return (
-    <div className="border rounded flex-grow p-4 min-w-60 bg-stone-200 print:bg-white print:border-gray-300">
+    <div className="border rounded flex-grow p-4 min-w-60 bg-stone-200 print:bg-stone-100 print:border-gray-300">
       <div className="flex justify-between item-center">
         <span className="text-lg">{title}</span>
         <Button

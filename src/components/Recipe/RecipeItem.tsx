@@ -57,11 +57,11 @@ export function RecipeItem({
   return (
     <section
       ref={printRef}
-      className="recipe-item my-4 border p-4 rounded bg-stone-100">
+      className="recipe-item border p-4 rounded bg-stone-100 print:border-none print:bg-white">
       <div className="flex flex-col gap-2">
         <div className="flex justify-items-center mt-2 text-center justify-between">
           <div className="text-2xl">{getRecipeTitle()}</div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 print:hidden">
             {isSignedIn ? (
               recipe.user.id == user?.id ? (
                 <>
@@ -85,7 +85,7 @@ export function RecipeItem({
         </div>
         <span className="text-sm">{formatDate(recipe.updatedAt.toString(), "medium")}</span>
         <span className="text-sm mb-2">User: {recipe.user.username}</span>
-        <div className="flex flex-col print:flex-row print:flex print:gap-2">
+        <div className="flex flex-col print:flex-row print:flex print:gap-4">
           <span>Preptime: {recipe.prepTime} mins</span>
           <span>Cooktime: {recipe.cookTime} mins</span>
           {recipe.ovenTemp ? <span>Oven Preheat: {recipe.ovenTemp}&deg;F</span> : <></>}
