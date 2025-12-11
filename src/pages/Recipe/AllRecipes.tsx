@@ -1,22 +1,12 @@
 import { RecipeList } from "@/components/Recipe/RecipeList";
-import { useFilteredRecipes } from "@/hooks/useFilteredRecipes";
-import { useRecipeData } from "@/hooks/useRecipeData";
+import { recipeData, recipeTypeData } from "@/data/mockData";
 
 export function Recipes() {
-  const recipeData = useRecipeData();
-  const { filteredRecipes, setSearchTerm, setRecipeType } = useFilteredRecipes(recipeData.recipes, recipeData.recipeTypes, null);
-
   return (
     <div className="lg:px-16 pt-8">
       <RecipeList
-        recipes={filteredRecipes}
-        recipeTypes={recipeData.recipeTypes}
-        loadingRecipes={recipeData.loadingRecipes}
-        recipesError={recipeData.recipesError}
-        onRecipeSaved={recipeData.toggleSavedRecipe}
-        onRecipeDelete={recipeData.deleteRecipe}
-        setRecipeType={setRecipeType}
-        setSearchTerm={setSearchTerm}
+        recipes={recipeData}
+        recipeTypes={recipeTypeData}
       />
     </div>
   );

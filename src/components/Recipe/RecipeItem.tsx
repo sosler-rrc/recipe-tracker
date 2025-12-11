@@ -1,5 +1,4 @@
-import { Edit, Printer, Star, Trash } from "lucide-react";
-import { Link, useNavigate } from "react-router";
+import { Printer } from "lucide-react";
 import type { Recipe } from "@/types/Recipe";
 import type { RecipeType } from "@/types/RecipeType";
 import { formatDate } from "@/utils/formateDate";
@@ -12,28 +11,9 @@ interface RecipeItemProps {
   recipe: Recipe;
   recipeTypes: RecipeType[];
   standalone?: boolean;
-
-  onRecipeSaved: (recipe: Recipe) => void;
-  onRecipeDelete: (recipeId: string) => void;
 }
 
-export function RecipeItem({ recipe, recipeTypes, standalone = false, onRecipeSaved, onRecipeDelete }: RecipeItemProps) {
-  let navigate = useNavigate();
-
-  function getRecipeTitle() {
-    const text = `${recipe.name} - ${recipeTypes.find((x) => x.id == recipe.recipeTypeId)?.name ?? ""}`;
-    if (!standalone) {
-      return (
-        <Link
-          to={`/recipes/${recipe.id}`}
-          className="hover:underline cursor:pointer">
-          {text}
-        </Link>
-      );
-    }
-    return text;
-  }
-
+export function RecipeItem({ recipe, recipeTypes, standalone = false }: RecipeItemProps) {
   const printRef = useRef<HTMLDivElement>(null);
   const handlePrint = useReactToPrint({
     contentRef: printRef,
@@ -45,15 +25,8 @@ export function RecipeItem({ recipe, recipeTypes, standalone = false, onRecipeSa
       className="recipe-item border p-4 rounded bg-stone-100 print:border-none print:bg-white">
       <div className="flex flex-col gap-2">
         <div className="flex justify-items-center mt-2 text-center justify-between">
-          <div className="text-2xl">{getRecipeTitle()}</div>
+          <div className="text-2xl">{`${recipe.name} - ${recipeTypes.find((x) => x.id == recipe.recipeTypeId)?.name ?? ""}`}</div>
           <div className="flex gap-2 print:hidden">
-            <Button onClick={() => navigate(`/recipes/${recipe.id}/edit`)}>
-              <Edit />
-            </Button>
-            <Button onClick={() => onRecipeDelete(recipe.id)}>
-              <Trash />
-            </Button>
-            <Button onClick={() => onRecipeSaved(recipe)}>{recipe.recipeSaved ? <Star fill="orange" /> : <Star />}</Button>
             <Button onClick={handlePrint}>
               <Printer />
             </Button>

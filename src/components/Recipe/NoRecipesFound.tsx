@@ -7,7 +7,7 @@ export function NoRecipesFound() {
         <span>No recipes found</span>
       </div>
       <div>
-        <Link to="/recipes">
+        <Link to="/">
           <span className="text-sky-600 hover:underline">View all recipes</span>
         </Link>
       </div>

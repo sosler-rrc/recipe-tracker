@@ -12,13 +12,14 @@ interface RecipeItemCardProps {
 export function RecipeItemCard({ data, title, ordered = false, defaultExpand = false }: RecipeItemCardProps) {
   const [expanded, setExpanded] = useState(defaultExpand);
   return (
-    <div className="border rounded flex-grow p-4 min-w-60 bg-stone-200 print:bg-stone-100 print:border-gray-300">
+    <div
+      className="border rounded flex-grow p-4 min-w-60 bg-stone-200 print:bg-stone-100 print:border-gray-300 cursor-pointer select-none"
+      onClick={() => setExpanded(!expanded)}>
       <div className="flex justify-between item-center">
         <span className="text-lg">{title}</span>
         <Button
           variant="stone"
-          className="print:hidden"
-          onClick={() => setExpanded(!expanded)}>
+          className="print:hidden">
           {expanded ? <ChevronUp /> : <ChevronDown />}
         </Button>
       </div>
