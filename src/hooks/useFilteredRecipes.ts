@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import type { Recipe } from "@/types/Recipe";
 import type { RecipeType } from "@/types/RecipeType";
-
 interface FilterOptions {
   searchTerm: string;
   recipeTypeId: string;
@@ -16,6 +15,7 @@ export function useFilteredRecipes(recipes: Recipe[], recipeTypes: RecipeType[],
 
   const recipeTypeMap = useMemo(() => {
     const map = new Map<string, string>();
+    console.log(recipeTypes);
     recipeTypes.forEach((type) => map.set(type.id, type.name.toLowerCase()));
     return map;
   }, [recipeTypes]);

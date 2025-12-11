@@ -8,14 +8,11 @@ import { RecipeListFilter } from "./RecipeListFilters";
 interface RecipeListProps {
   recipes: Recipe[];
   recipeTypes: RecipeType[];
-  savedRecipeIds: string[];
   loadingRecipes: boolean;
   recipesError: string | null;
 
   onRecipeSaved: (recipe: Recipe) => void;
   onRecipeDelete: (recipeId: string) => void;
-  onRecipeComment: (recipeId: string, text: string) => void;
-  onDeleteComment: (recipeId: string, commentId: string) => void;
 
   setSearchTerm: (val: string) => void;
   setRecipeType: (val: string) => void;
@@ -24,13 +21,10 @@ interface RecipeListProps {
 export function RecipeList({
   recipes,
   recipeTypes,
-  savedRecipeIds,
   loadingRecipes,
   recipesError,
   onRecipeSaved,
   onRecipeDelete,
-  onRecipeComment,
-  onDeleteComment,
   setSearchTerm,
   setRecipeType,
 }: RecipeListProps) {
@@ -61,11 +55,8 @@ export function RecipeList({
               key={x.id}
               recipe={x}
               recipeTypes={recipeTypes}
-              savedRecipeIds={savedRecipeIds}
               onRecipeSaved={onRecipeSaved}
               onRecipeDelete={onRecipeDelete}
-              onRecipeComment={onRecipeComment}
-              onDeleteComment={onDeleteComment}
             />
           </div>
         ))}

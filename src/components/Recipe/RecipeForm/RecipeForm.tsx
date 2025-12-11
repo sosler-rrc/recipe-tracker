@@ -1,12 +1,11 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
-import { useUser } from "@clerk/clerk-react";
 import { IngredientsForm } from "./IngredientsForm";
 import { RecipeStepsForm } from "./StepsForm";
 import { useRecipes } from "@/hooks/useRecipes";
 import { useRecipeForm } from "@/hooks/useRecipeForm";
 import { useRecipeTypes } from "@/hooks/useRecipeTypes";
 import { Button, Input, Select, Textarea } from "@/components/ui";
+import { useNavigate } from "react-router";
 
 interface RecipeFormProps {
   formMode: "edit" | "create";
@@ -17,19 +16,14 @@ export function RecipeForm({ formMode, recipeId }: RecipeFormProps) {
   const { recipes } = useRecipes([]);
   const { ingredients, recipeData, steps, errors, onReset, handleFormChange, setIngredients, setSteps, setRecipeData, onSubmitForm } = useRecipeForm();
   const { recipeTypes } = useRecipeTypes([]);
+  const navigate = useNavigate();
 
-  let navigate = useNavigate();
-  const { user } = useUser();
-
-  if (!user) {
-    navigate("/not-found");
-  }
   useEffect(() => {
     //When the formMode is "edit" and a recipeId is passed in, find the associated recipe and use that to fill the form fields for an update
     if (formMode == "edit" && recipeId) {
       const editedRecipe = recipes.find((x) => x.id == recipeId);
       if (editedRecipe) {
-        const { updatedAt, createdAt, user, userId, ...data } = { ...editedRecipe };
+        const { updatedAt, createdAt, ...data } = { ...editedRecipe };
         setRecipeData(data);
         setIngredients(editedRecipe.ingredients);
         setSteps(editedRecipe.steps);

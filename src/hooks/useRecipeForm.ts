@@ -2,16 +2,15 @@ import { useEffect, useState } from "react";
 import * as RecipeService from "@/services/recipeService";
 import * as ValidateRecipeService from "@/services/validateRecipeService";
 import { toast } from "react-toastify";
-import { useAuth } from "@clerk/clerk-react";
 import type { CreateUpdateRecipe } from "@/types/CreateUpdateRecipe";
 
 const DEFAULT_RECIPE = {
   name: "",
   description: "",
   recipeTypeId: "",
-  cookTime: 0,
-  prepTime: 0,
-  servings: 0,
+  cookTime: undefined,
+  prepTime: undefined,
+  servings: undefined,
   ovenTemp: undefined,
   ingredients: [],
   steps: [],
@@ -19,7 +18,6 @@ const DEFAULT_RECIPE = {
 } as CreateUpdateRecipe;
 
 export function useRecipeForm() {
-  const { getToken } = useAuth();
   const [recipeData, setRecipeData] = useState<CreateUpdateRecipe>(DEFAULT_RECIPE);
   const [errors, setErrors] = useState<Map<string, string>>(new Map());
   const [steps, setSteps] = useState<string[]>([]);
@@ -61,11 +59,6 @@ export function useRecipeForm() {
   };
 
   const onSubmitForm = async (formMode: "create" | "edit") => {
-    let sessionToken = (await getToken()) ?? null;
-
-    if (!sessionToken) {
-      throw new Error("Unauthorized");
-    }
     const recipeErrors = await ValidateRecipeService.validateRecipe(recipeData, ingredients, steps);
     setErrors(recipeErrors);
     if (recipeErrors.size == 0) {
@@ -75,10 +68,10 @@ export function useRecipeForm() {
         steps,
       };
       if (formMode == "create") {
-        const newRecipe = await RecipeService.createNewRecipe(recipe, sessionToken);
+        const newRecipe = await RecipeService.createNewRecipe(recipe);
         recipe.id = newRecipe.id;
       } else {
-        await RecipeService.updateRecipe(recipe, sessionToken);
+        await RecipeService.updateRecipe(recipe);
       }
       //display a toast message for a successful update/create
       const toastMessage = `Successfully ${formMode == "create" ? "created new" : "updated"}  recipe ${recipe.name}!`;
@@ -90,6 +83,7 @@ export function useRecipeForm() {
         autoClose: 2500,
       });
       onReset();
+      console.log(recipe);
       return recipe;
     }
     return null;

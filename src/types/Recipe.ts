@@ -1,6 +1,3 @@
-import type { RecipeComment } from "./RecipeComment";
-import type { User } from "./User";
-
 export interface Recipe {
   id: string;
   name: string;
@@ -10,14 +7,12 @@ export interface Recipe {
   ingredients: string[];
   steps: string[];
 
-  servings: number;
-  prepTime: number; // mins
-  cookTime: number; // mins
+  recipeSaved: boolean;
+
+  servings?: number;
+  prepTime?: number; // mins
+  cookTime?: number; // mins
   ovenTemp?: number;
   updatedAt: Date;
   createdAt: Date;
-  user: User;
-  userId: string;
-
-  comments: RecipeComment[];
 }

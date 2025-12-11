@@ -20,15 +20,14 @@ export function ViewRecipe() {
   }
 
   return (
-    <RecipeItem
-      recipe={selectedRecipe}
-      recipeTypes={recipeData.recipeTypes}
-      savedRecipeIds={recipeData.userSavedRecipeIds}
-      onRecipeComment={recipeData.createRecipeComment}
-      onRecipeSaved={recipeData.toggleSavedRecipe}
-      onRecipeDelete={recipeData.deleteRecipe}
-      onDeleteComment={recipeData.deleteRecipeComment}
-      standalone={true}
-    />
+    <div className="mt-4">
+      <RecipeItem
+        recipe={selectedRecipe}
+        recipeTypes={recipeData.recipeTypes}
+        onRecipeSaved={recipeData.toggleSavedRecipe}
+        onRecipeDelete={recipeData.deleteRecipe}
+        standalone={true}
+      />
+    </div>
   );
 }

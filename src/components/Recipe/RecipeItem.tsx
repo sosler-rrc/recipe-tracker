@@ -1,4 +1,3 @@
-import { useUser } from "@clerk/clerk-react";
 import { Edit, Printer, Star, Trash } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import type { Recipe } from "@/types/Recipe";
@@ -6,34 +5,20 @@ import type { RecipeType } from "@/types/RecipeType";
 import { formatDate } from "@/utils/formateDate";
 import { Button } from "@/components/ui";
 import { RecipeItemCard } from "./RecipeItemCard";
-import { RecipeComments } from "./RecipeComments";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 
 interface RecipeItemProps {
   recipe: Recipe;
   recipeTypes: RecipeType[];
-  savedRecipeIds: string[];
   standalone?: boolean;
 
   onRecipeSaved: (recipe: Recipe) => void;
   onRecipeDelete: (recipeId: string) => void;
-  onRecipeComment: (recipeId: string, text: string) => void;
-  onDeleteComment: (recipeId: string, commentId: string) => void;
 }
 
-export function RecipeItem({
-  recipe,
-  recipeTypes,
-  savedRecipeIds,
-  standalone = false,
-  onRecipeSaved,
-  onRecipeDelete,
-  onRecipeComment,
-  onDeleteComment,
-}: RecipeItemProps) {
+export function RecipeItem({ recipe, recipeTypes, standalone = false, onRecipeSaved, onRecipeDelete }: RecipeItemProps) {
   let navigate = useNavigate();
-  const { user, isSignedIn } = useUser();
 
   function getRecipeTitle() {
     const text = `${recipe.name} - ${recipeTypes.find((x) => x.id == recipe.recipeTypeId)?.name ?? ""}`;
@@ -62,29 +47,19 @@ export function RecipeItem({
         <div className="flex justify-items-center mt-2 text-center justify-between">
           <div className="text-2xl">{getRecipeTitle()}</div>
           <div className="flex gap-2 print:hidden">
-            {isSignedIn ? (
-              recipe.user.id == user?.id ? (
-                <>
-                  <Button onClick={() => navigate(`/recipes/${recipe.id}/edit`)}>
-                    <Edit />
-                  </Button>
-                  <Button onClick={() => onRecipeDelete(recipe.id)}>
-                    <Trash />
-                  </Button>
-                </>
-              ) : (
-                <Button onClick={() => onRecipeSaved(recipe)}>{savedRecipeIds?.includes(recipe.id) ? <Star fill="orange" /> : <Star />}</Button>
-              )
-            ) : (
-              <></>
-            )}
+            <Button onClick={() => navigate(`/recipes/${recipe.id}/edit`)}>
+              <Edit />
+            </Button>
+            <Button onClick={() => onRecipeDelete(recipe.id)}>
+              <Trash />
+            </Button>
+            <Button onClick={() => onRecipeSaved(recipe)}>{recipe.recipeSaved ? <Star fill="orange" /> : <Star />}</Button>
             <Button onClick={handlePrint}>
               <Printer />
             </Button>
           </div>
         </div>
         <span className="text-sm">{formatDate(recipe.updatedAt.toString(), "medium")}</span>
-        <span className="text-sm mb-2">User: {recipe.user.username}</span>
         <div className="flex flex-col print:flex-row print:flex print:gap-4">
           <span>Preptime: {recipe.prepTime} mins</span>
           <span>Cooktime: {recipe.cookTime} mins</span>
@@ -106,16 +81,6 @@ export function RecipeItem({
             defaultExpand={standalone}
           />
         </div>
-        {standalone ? (
-          <RecipeComments
-            recipeId={recipe.id}
-            onRecipeComment={onRecipeComment}
-            onDeleteComment={(comment) => onDeleteComment(recipe.id, comment)}
-            comments={recipe.comments}
-          />
-        ) : (
-          <></>
-        )}
       </div>
     </section>
   );

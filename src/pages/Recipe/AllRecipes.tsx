@@ -11,13 +11,10 @@ export function Recipes() {
       <RecipeList
         recipes={filteredRecipes}
         recipeTypes={recipeData.recipeTypes}
-        savedRecipeIds={recipeData.userSavedRecipeIds}
         loadingRecipes={recipeData.loadingRecipes}
         recipesError={recipeData.recipesError}
         onRecipeSaved={recipeData.toggleSavedRecipe}
         onRecipeDelete={recipeData.deleteRecipe}
-        onRecipeComment={recipeData.createRecipeComment}
-        onDeleteComment={recipeData.deleteRecipeComment}
         setRecipeType={setRecipeType}
         setSearchTerm={setSearchTerm}
       />
