@@ -1,20 +1,37 @@
 import { RecipeList } from "@/components/Recipe/RecipeList";
-import { useFilteredRecipes } from "@/hooks/useFilteredRecipes";
-import { useRecipeData } from "@/hooks/useRecipeData";
+import type { Recipe } from "@/types/Recipe";
+import type { RecipeType } from "@/types/RecipeType";
 
-export function SavedRecipes() {
-  const recipeData = useRecipeData();
-  const { filteredRecipes, setRecipeType, setSearchTerm } = useFilteredRecipes(recipeData.recipes, recipeData.recipeTypes, (recipe) => recipe.recipeSaved);
+interface SavedRecipesProps {
+  recipes: Recipe[];
+  recipeTypes: RecipeType[];
+  loadingRecipes: boolean;
+  recipesError: string | null;
+  onRecipeDelete: (recipeId: string) => void;
+  onRecipeSaved: (recipe: Recipe) => void;
+  setSearchTerm: (searchTerm: string) => void;
+  setRecipeType: (recipeTypeId: string) => void;
+}
 
+export function SavedRecipes({
+  recipes,
+  recipeTypes,
+  loadingRecipes,
+  recipesError,
+  onRecipeDelete,
+  onRecipeSaved,
+  setSearchTerm,
+  setRecipeType,
+}: SavedRecipesProps) {
   return (
     <div className="p-16">
       <RecipeList
-        recipes={filteredRecipes}
-        recipeTypes={recipeData.recipeTypes}
-        loadingRecipes={recipeData.loadingRecipes}
-        recipesError={recipeData.recipesError}
-        onRecipeDelete={recipeData.deleteRecipe}
-        onRecipeSaved={recipeData.toggleSavedRecipe}
+        recipes={recipes}
+        recipeTypes={recipeTypes}
+        loadingRecipes={loadingRecipes}
+        recipesError={recipesError}
+        onRecipeDelete={onRecipeDelete}
+        onRecipeSaved={onRecipeSaved}
         setRecipeType={setRecipeType}
         setSearchTerm={setSearchTerm}
       />
