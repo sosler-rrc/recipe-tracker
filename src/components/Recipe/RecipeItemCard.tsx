@@ -1,5 +1,4 @@
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { Button } from "@/components/ui";
 import { useState } from "react";
 
 interface RecipeItemCardProps {
@@ -17,11 +16,7 @@ export function RecipeItemCard({ data, title, ordered = false, defaultExpand = f
       onClick={() => setExpanded(!expanded)}>
       <div className="flex justify-between item-center">
         <span className="text-lg">{title}</span>
-        <Button
-          variant="stone"
-          className="print:hidden">
-          {expanded ? <ChevronUp /> : <ChevronDown />}
-        </Button>
+        <button className="print:hidden">{expanded ? <ChevronUp /> : <ChevronDown />}</button>
       </div>
       {expanded ? (
         <ul className="text-sm mt-4 flex flex-col gap-2 print:mt-1 print:gap-1 print:block print:columns-2">

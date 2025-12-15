@@ -2,7 +2,6 @@ import { Printer } from "lucide-react";
 import type { Recipe } from "@/types/Recipe";
 import type { RecipeType } from "@/types/RecipeType";
 import { formatDate } from "@/utils/formateDate";
-import { Button } from "@/components/ui";
 import { RecipeItemCard } from "./RecipeItemCard";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
@@ -27,9 +26,9 @@ export function RecipeItem({ recipe, recipeTypes, standalone = false }: RecipeIt
         <div className="flex justify-items-center mt-2 text-center justify-between">
           <div className="text-2xl">{`${recipe.name} - ${recipeTypes.find((x) => x.id == recipe.recipeTypeId)?.name ?? ""}`}</div>
           <div className="flex gap-2 print:hidden">
-            <Button onClick={handlePrint}>
+            <button onClick={handlePrint}>
               <Printer />
-            </Button>
+            </button>
           </div>
         </div>
         <span className="text-sm">{formatDate(recipe.updatedAt.toString(), "medium")}</span>
