@@ -23,7 +23,7 @@ export async function createRecipe(recipe: CreateUpdateRecipe) {
     id: uuidv4(),
     updatedAt: new Date(),
     createdAt: new Date(),
-    recipeSaved: false,
+    recipeSaved: true,
   };
   recipeData.push(data);
   return data;

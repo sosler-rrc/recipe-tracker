@@ -14,12 +14,8 @@ export function Navbar() {
           <Link to="/recipes">
             <Button>All Recipes</Button>
           </Link>
-
           <Link to="/recipes/saved-recipes">
             <Button>Saved Recipes</Button>
-          </Link>
-          <Link to="/recipes/my-recipes">
-            <Button>My Recipes</Button>
           </Link>
           <Link to="/recipes/create">
             <Button>Create Recipe</Button>

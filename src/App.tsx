@@ -4,7 +4,6 @@ import { Layout } from "@/components/Layout/Layout";
 import { Recipes } from "@/pages/Recipe/AllRecipes";
 import { Landing } from "@/pages/Landing";
 import { NotFound } from "@/pages/NotFound";
-import { MyRecipes } from "@/pages/Recipe/MyRecipes";
 import { CreateRecipe } from "@/pages/Recipe/CreateRecipe";
 import { UpdateRecipe } from "@/pages/Recipe/UpdateRecipe";
 import { ViewRecipe } from "@/pages/Recipe/ViewRecipe";
@@ -29,10 +28,6 @@ function App() {
             <Route
               path="saved-recipes"
               element={<SavedRecipes />}
-            />
-            <Route
-              path="my-recipes"
-              element={<MyRecipes />}
             />
             <Route
               path=":id"
